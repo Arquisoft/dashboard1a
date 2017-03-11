@@ -5,12 +5,14 @@
 
 # dashboard1a
 
-[![Join the chat at https://gitter.im/Arquisoft/participants0](https://badges.gitter.im/Arquisoft/dashboard1a.svg)](https://gitter.im/Arquisoft/dashboard1a?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Join the chat at https://gitter.im/Arquisoft/dashboard1a](https://badges.gitter.im/Arquisoft/dashboard1a.svg)](https://gitter.im/Arquisoft/dashboard1a?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 Skeleton of participants module
 
 # Authors
 
-- Herminio García González (@herminiogg)
-- Jose Emilio Labra Gayo (@labra)
+- David Lorenzo González (UO244795)
+- Martín Peláez Díaz (UO236974)
+- Laura Menéndez Pérez (UO244646)
+- Fernando Palazuelo Ginzo (UO244588)
 
