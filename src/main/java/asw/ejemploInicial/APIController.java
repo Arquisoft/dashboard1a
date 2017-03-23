@@ -1,4 +1,4 @@
-package hello;
+package asw.ejemploInicial;
 
 
 import org.springframework.web.bind.annotation.RequestMapping;
