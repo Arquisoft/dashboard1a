@@ -11,6 +11,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import asw.dbManagement.model.types.VoteType;
+
 @Entity
 @Table(name = "TCommentaries")
 public class Commentary {
@@ -38,7 +40,7 @@ public class Commentary {
 		this.identificador = identificador;
 	}
 
-	public Commentary(String identificador, String contenido,Participant participant,Suggestion suggestion) {
+	public Commentary(String identificador, String contenido, Participant participant, Suggestion suggestion) {
 		this(identificador);
 		this.contenido = contenido;
 		Association.Comentar.link(participant, this, suggestion);
@@ -87,7 +89,7 @@ public class Commentary {
 	public Long getId() {
 		return id;
 	}
-	
+
 	public Set<VoteCommentary> getVotesCommentary() {
 		return new HashSet<VoteCommentary>(votesCommentaries);
 	}
@@ -98,6 +100,28 @@ public class Commentary {
 
 	public String getIdentificador() {
 		return identificador;
+	}
+
+	/**
+	 * Metodo que incrementa el voto dependiendo del tipo del que este sea.
+	 * @param voteType
+	 */
+	public void incrementarNumeroVotos(VoteType voteType) {
+		if (voteType.equals(VoteType.POSITIVE))
+			votosPositivos++;
+		else if (voteType.equals(VoteType.NEGATIVE))
+			votosNegativos++;
+	}
+	
+	/**
+	 * Metodo que decrementa el voto dependiendo del tipo del que este sea.
+	 * @param voteType
+	 */
+	public void decrementarNumeroVotos(VoteType voteType){
+		if (voteType.equals(VoteType.POSITIVE))
+			votosPositivos--;
+		else if (voteType.equals(VoteType.NEGATIVE))
+			votosNegativos--;
 	}
 
 	@Override
@@ -124,8 +148,8 @@ public class Commentary {
 			return false;
 		return true;
 	}
-	
-	public void deleteComment(){
+
+	public void deleteComment() {
 		Association.Comentar.unlink(this);
 	}
 }

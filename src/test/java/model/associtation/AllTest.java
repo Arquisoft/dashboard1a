@@ -1,4 +1,4 @@
-package domainModel;
+package model.associtation;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;

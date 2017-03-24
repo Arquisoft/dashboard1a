@@ -11,6 +11,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import asw.dbManagement.model.types.VoteType;
+
 @Entity
 @Table(name = "TSuggestions")
 public class Suggestion {
@@ -21,7 +23,7 @@ public class Suggestion {
 	private String identificador;
 	private String nombre;
 	private String contenido;
-	private int votosPositvos = 0;
+	private int votosPositivos = 0;
 	private int votosNegativos = 0;
 	private int votosMinimos;
 
@@ -64,12 +66,12 @@ public class Suggestion {
 		this.contenido = contenido;
 	}
 
-	public int getVotosPositvos() {
-		return votosPositvos;
+	public int getVotosPositivos() {
+		return votosPositivos;
 	}
 
-	public void setVotosPositvos(int votosPositvos) {
-		this.votosPositvos = votosPositvos;
+	public void setVotosPositivos(int votosPositvos) {
+		this.votosPositivos = votosPositvos;
 	}
 
 	public int getVotosNegativos() {
@@ -147,5 +149,27 @@ public class Suggestion {
 	
 	public void deleteSuggestion() {
 		Association.Proponer.unlink(participant, this);
+	}
+	
+	/**
+	 * Metodo que incrementa el voto dependiendo del tipo del que este sea.
+	 * @param voteType
+	 */
+	public void incrementarNumeroVotos(VoteType voteType) {
+		if (voteType.equals(VoteType.POSITIVE))
+			votosPositivos++;
+		else if (voteType.equals(VoteType.NEGATIVE))
+			votosNegativos++;
+	}
+	
+	/**
+	 * Metodo que decrementa el voto dependiendo del tipo del que este sea.
+	 * @param voteType
+	 */
+	public void decrementarNumeroVotos(VoteType voteType){
+		if (voteType.equals(VoteType.POSITIVE))
+			votosPositivos--;
+		else if (voteType.equals(VoteType.NEGATIVE))
+			votosNegativos--;
 	}
 }

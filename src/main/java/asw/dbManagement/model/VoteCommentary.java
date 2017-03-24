@@ -1,6 +1,8 @@
 package asw.dbManagement.model;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
@@ -8,6 +10,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import asw.dbManagement.model.types.VoteCommentaryKey;
+import asw.dbManagement.model.types.VoteType;
 
 @Entity
 @IdClass(VoteCommentaryKey.class)
@@ -23,13 +26,17 @@ public class VoteCommentary {
 	@ManyToOne
 	@JoinColumn(name = "COMMENTARY_ID", referencedColumnName = "ID")
 	private Commentary commentary;
+	@Enumerated(EnumType.STRING)
+	private VoteType voteType;
 
 	VoteCommentary() {
 	}
 
-	public VoteCommentary(Participant participant, Commentary commentary) {
+	public VoteCommentary(Participant participant, Commentary commentary, VoteType voteType) {
 		// TODO Auto-generated constructor stub
+		this.voteType = voteType;
 		Association.VotarCommentary.link(participant, this, commentary);
+		commentary.incrementarNumeroVotos(voteType);		
 	}
 
 	public Participant getParticipant() {
@@ -47,9 +54,17 @@ public class VoteCommentary {
 	void _setComentary(Commentary commentary) {
 		this.commentary = commentary;
 	}
-	
-	public void deleteVoteCommentary(){
+
+	public void deleteVoteCommentary() {
 		Association.VotarCommentary.unlink(this);
+	}
+
+	public VoteType getVoteType() {
+		return voteType;
+	}
+
+	public void setVoteType(VoteType voteType) {
+		this.voteType = voteType;
 	}
 
 	@Override

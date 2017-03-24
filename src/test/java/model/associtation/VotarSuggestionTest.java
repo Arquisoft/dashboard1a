@@ -1,4 +1,4 @@
-package domainModel;
+package model.associtation;
 
 import static org.junit.Assert.assertTrue;
 
@@ -11,6 +11,7 @@ import org.junit.Test;
 import asw.dbManagement.model.Participant;
 import asw.dbManagement.model.Suggestion;
 import asw.dbManagement.model.VoteSuggestion;
+import asw.dbManagement.model.types.VoteType;
 
 public class VotarSuggestionTest {
 
@@ -27,7 +28,7 @@ public class VotarSuggestionTest {
 
 		participantVoto = new Participant("dueño", "comentario", "diaz", new Date(1993, 11, 12), "pepe@gmail.com",
 				"7654321", "Calle Uria", "ESP", false, false);
-		voto = new VoteSuggestion(participantVoto, suggestion);
+		voto = new VoteSuggestion(participantVoto, suggestion, VoteType.POSITIVE);
 	}
 
 	@Test

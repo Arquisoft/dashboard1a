@@ -1,4 +1,4 @@
-package domainModel;
+package model.associtation;
 
 import static org.junit.Assert.assertTrue;
 

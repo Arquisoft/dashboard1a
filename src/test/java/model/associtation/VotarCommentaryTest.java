@@ -1,4 +1,4 @@
-package domainModel;
+package model.associtation;
 
 import static org.junit.Assert.*;
 
@@ -12,6 +12,7 @@ import asw.dbManagement.model.Commentary;
 import asw.dbManagement.model.Participant;
 import asw.dbManagement.model.Suggestion;
 import asw.dbManagement.model.VoteCommentary;
+import asw.dbManagement.model.types.VoteType;
 
 public class VotarCommentaryTest {
 
@@ -31,7 +32,7 @@ public class VotarCommentaryTest {
 				"7654321", "Calle Uria", "ESP", false, false);
 		commentary = new Commentary("comentario de prueba ", "esto es un comentario de prueba", participantComentario,
 				suggestion);
-		voto = new VoteCommentary(participant, commentary);
+		voto = new VoteCommentary(participant, commentary, VoteType.POSITIVE);
 	}
 
 	@Test
