@@ -47,6 +47,9 @@ public class VoteSuggestion {
 	void _setSuggestion(Suggestion suggestion) {
 		this.suggestion = suggestion;
 	}
+	public void deleteVoteSuggestion(){
+		Association.VotarSuggestion.unlink(this);
+	}
 
 	@Override
 	public String toString() {

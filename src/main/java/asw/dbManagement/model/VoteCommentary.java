@@ -47,6 +47,10 @@ public class VoteCommentary {
 	void _setComentary(Commentary commentary) {
 		this.commentary = commentary;
 	}
+	
+	public void deleteVoteCommentary(){
+		Association.VotarCommentary.unlink(this);
+	}
 
 	@Override
 	public String toString() {
