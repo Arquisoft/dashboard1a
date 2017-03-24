@@ -13,7 +13,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "TParticipant")
+@Table(name = "TParticipants")
 public class Participant {
 
 	// Id generado automáticamente para diferenciar cada uno (para mapear)
@@ -29,22 +29,26 @@ public class Participant {
 	@Column(unique = true)
 	private String email;
 	@Column(unique = true)
-	private String dni;
+	private String DNI;
 	private String direccion;
 	private String nacionalidad;
 
+	private boolean isAdmin;
+	private boolean isPolitician;
+
 	@OneToMany(mappedBy = "participant")
-	private Set<Propuesta> propuestas = new HashSet<Propuesta>();
+	private Set<Suggestion> suggestions = new HashSet<Suggestion>();
+	@OneToMany(mappedBy = "participant")
+	private Set<Commentary> commentaries = new HashSet<Commentary>();
+	@OneToMany(mappedBy = "participant")
+	private Set<VoteSuggestion> votesSuggestion = new HashSet<VoteSuggestion>();
+	@OneToMany(mappedBy = "participant")
+	private Set<VoteCommentary> votesCommentaries = new HashSet<VoteCommentary>();
 
 	/**
 	 * Constructor vacío (ya que es para mapear)
 	 */
 	Participant() {
-	}
-
-	public Participant(String dni) {
-		super();
-		this.dni = dni;
 	}
 
 	/**
@@ -55,20 +59,23 @@ public class Participant {
 	 * @param password
 	 * @param fechaNacimiento
 	 * @param email
-	 * @param dni
+	 * @param dNI
 	 * @param direccion
 	 * @param nacionalidad
 	 */
-	public Participant(String nombre, String apellidos, String password, Date fechaNacimiento, String email, String dni,
-			String direccion, String nacionalidad) {
-		this(dni);
+	public Participant(String nombre, String apellidos, String password, Date fechaNacimiento, String email, String dNI,
+			String direccion, String nacionalidad, boolean isAdmin, boolean isPolitician) {
+		super();
 		this.nombre = nombre;
 		this.apellidos = apellidos;
 		this.password = password;
 		this.fechaNacimiento = fechaNacimiento;
 		this.email = email;
+		this.DNI = dNI;
 		this.direccion = direccion;
 		this.nacionalidad = nacionalidad;
+		this.isAdmin = isAdmin;
+		this.isPolitician = isPolitician;
 	}
 
 	public Long getId() {
@@ -104,7 +111,7 @@ public class Participant {
 	}
 
 	public String getDNI() {
-		return dni;
+		return DNI;
 	}
 
 	public String getDireccion() {
@@ -115,19 +122,59 @@ public class Participant {
 		return nacionalidad;
 	}
 
-	public Set<Propuesta> getPropuestas() {
-		return new HashSet<Propuesta>(propuestas);
+	public boolean isAdmin() {
+		return isAdmin;
 	}
 
-	Set<Propuesta> _getPropuestas() {
-		return propuestas;
+	public void setAdmin(boolean isAdmin) {
+		this.isAdmin = isAdmin;
+	}
+
+	public boolean isPolitician() {
+		return isPolitician;
+	}
+
+	public void setPolitician(boolean isPolitician) {
+		this.isPolitician = isPolitician;
+	}
+
+	public Set<Suggestion> getSuggestion() {
+		return new HashSet<Suggestion>(suggestions);
+	}
+
+	Set<Suggestion> _getSuggestion() {
+		return suggestions;
+	}
+
+	public Set<Commentary> getComentaries() {
+		return new HashSet<Commentary>(commentaries);
+	}
+
+	Set<Commentary> _getCommentaries() {
+		return commentaries;
+	}
+
+	public Set<VoteSuggestion> getVotesSuggestion() {
+		return new HashSet<VoteSuggestion>(votesSuggestion);
+	}
+
+	Set<VoteSuggestion> _getVotesSuggestion() {
+		return votesSuggestion;
+	}
+	
+	public Set<VoteCommentary> getVotesCommentary() {
+		return new HashSet<VoteCommentary>(votesCommentaries);
+	}
+
+	Set<VoteCommentary> _getVotesCommentary() {
+		return votesCommentaries;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((dni == null) ? 0 : dni.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		return result;
 	}
 
@@ -140,18 +187,12 @@ public class Participant {
 		if (getClass() != obj.getClass())
 			return false;
 		Participant other = (Participant) obj;
-		if (dni == null) {
-			if (other.dni != null)
+		if (id == null) {
+			if (other.id != null)
 				return false;
-		} else if (!dni.equals(other.dni))
+		} else if (!id.equals(other.id))
 			return false;
 		return true;
 	}
 
-	@Override
-	public String toString() {
-		return "Participant [nombre=" + nombre + ", apellidos=" + apellidos + ", fechaNacimiento=" + fechaNacimiento
-				+ ", email=" + email + ", DNI=" + dni + ", direccion=" + direccion + ", nacionalidad=" + nacionalidad
-				+ "]";
-	}
 }

@@ -12,8 +12,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "TPropuesta")
-public class Propuesta {
+@Table(name = "TSuggestions")
+public class Suggestion {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,26 +27,24 @@ public class Propuesta {
 
 	@ManyToOne
 	private Participant participant;
-	@OneToMany(mappedBy = "propuesta")
-	private Set<Comentario> comentarios = new HashSet<Comentario>();
+	@OneToMany(mappedBy = "suggestion")
+	private Set<Commentary> commentaries = new HashSet<Commentary>();
+	@OneToMany(mappedBy = "suggestion")
+	private Set<VoteSuggestion> votesSuggestion = new HashSet<VoteSuggestion>();
 
-	Propuesta() {
+	Suggestion() {
 	}
 
-	public Propuesta(String identificador) {
+	public Suggestion(String identificador) {
 		super();
 		this.identificador = identificador;
 	}
 
-	public Propuesta(String identificador, String nombre, String contenido, int votosMinimos) {
+	public Suggestion(String identificador, String nombre, String contenido, int votosMinimos) {
 		this(identificador);
 		this.nombre = nombre;
 		this.contenido = contenido;
 		this.votosMinimos = votosMinimos;
-	}
-
-	public String getIdentificador() {
-		return identificador;
 	}
 
 	public String getNombre() {
@@ -96,13 +94,29 @@ public class Propuesta {
 	void _setParticipant(Participant participant) {
 		this.participant = participant;
 	}
-	
-	public Set<Comentario> getComentarios(){
-		return new HashSet<Comentario>(comentarios);
+
+	public Long getId() {
+		return id;
+	}
+
+	public Set<Commentary> getComentaries() {
+		return new HashSet<Commentary>(commentaries);
+	}
+
+	Set<Commentary> _getCommentaries() {
+		return commentaries;
 	}
 	
-	Set<Comentario> _getComentario(){
-		return comentarios;
+	public Set<VoteSuggestion> getVotesSuggestion() {
+		return new HashSet<VoteSuggestion>(votesSuggestion);
+	}
+
+	Set<VoteSuggestion> _getVotesSuggestion() {
+		return votesSuggestion;
+	}
+
+	public String getIdentificador() {
+		return identificador;
 	}
 
 	@Override
@@ -121,20 +135,13 @@ public class Propuesta {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Propuesta other = (Propuesta) obj;
+		Suggestion other = (Suggestion) obj;
 		if (identificador == null) {
 			if (other.identificador != null)
 				return false;
 		} else if (!identificador.equals(other.identificador))
 			return false;
 		return true;
-	}
-
-	@Override
-	public String toString() {
-		return "Propuesta [identificador=" + identificador + ", nombre=" + nombre + ", contenido=" + contenido
-				+ ", votosPositvos=" + votosPositvos + ", votosNegativos=" + votosNegativos + ", votosMinimos="
-				+ votosMinimos + ", participant=" + participant + "]";
 	}
 
 }
