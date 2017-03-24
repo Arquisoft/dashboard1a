@@ -50,6 +50,11 @@ public class Participant {
 	 */
 	Participant() {
 	}
+	
+	public Participant(String dni){
+		super();
+		this.DNI = dni;
+	}
 
 	/**
 	 * Constructor
@@ -63,15 +68,14 @@ public class Participant {
 	 * @param direccion
 	 * @param nacionalidad
 	 */
-	public Participant(String nombre, String apellidos, String password, Date fechaNacimiento, String email, String dNI,
+	public Participant(String nombre, String apellidos, String password, Date fechaNacimiento, String email, String dni,
 			String direccion, String nacionalidad, boolean isAdmin, boolean isPolitician) {
-		super();
+		this(dni);
 		this.nombre = nombre;
 		this.apellidos = apellidos;
 		this.password = password;
 		this.fechaNacimiento = fechaNacimiento;
-		this.email = email;
-		this.DNI = dNI;
+		this.email = email;		
 		this.direccion = direccion;
 		this.nacionalidad = nacionalidad;
 		this.isAdmin = isAdmin;
@@ -146,7 +150,7 @@ public class Participant {
 		return suggestions;
 	}
 
-	public Set<Commentary> getComentaries() {
+	public Set<Commentary> getCommentaries() {
 		return new HashSet<Commentary>(commentaries);
 	}
 

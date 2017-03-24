@@ -38,9 +38,10 @@ public class Commentary {
 		this.identificador = identificador;
 	}
 
-	public Commentary(String identificador, String contenido) {
+	public Commentary(String identificador, String contenido,Participant participant,Suggestion suggestion) {
 		this(identificador);
 		this.contenido = contenido;
+		Association.Comentar.link(participant, this, suggestion);
 	}
 
 	public String getContenido() {
@@ -122,5 +123,9 @@ public class Commentary {
 		} else if (!identificador.equals(other.identificador))
 			return false;
 		return true;
+	}
+	
+	public void deleteComment(){
+		Association.Comentar.unlink(this);
 	}
 }

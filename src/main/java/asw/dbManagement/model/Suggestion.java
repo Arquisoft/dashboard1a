@@ -40,11 +40,12 @@ public class Suggestion {
 		this.identificador = identificador;
 	}
 
-	public Suggestion(String identificador, String nombre, String contenido, int votosMinimos) {
+	public Suggestion(String identificador, String nombre, String contenido, int votosMinimos, Participant participant) {
 		this(identificador);
 		this.nombre = nombre;
 		this.contenido = contenido;
 		this.votosMinimos = votosMinimos;
+		Association.Proponer.link(participant, this);
 	}
 
 	public String getNombre() {
@@ -99,7 +100,7 @@ public class Suggestion {
 		return id;
 	}
 
-	public Set<Commentary> getComentaries() {
+	public Set<Commentary> getCommentaries() {
 		return new HashSet<Commentary>(commentaries);
 	}
 
@@ -143,5 +144,8 @@ public class Suggestion {
 			return false;
 		return true;
 	}
-
+	
+	public void deleteSuggestion() {
+		Association.Proponer.unlink(participant, this);
+	}
 }

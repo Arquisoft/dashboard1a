@@ -4,12 +4,12 @@ public class Association {
 
 	public static class Proponer {
 
-		public void link(Participant participant, Suggestion suggestion) {
+		public static void link(Participant participant, Suggestion suggestion) {
 			suggestion._setParticipant(participant);
 			participant._getSuggestion().add(suggestion);
 		}
 
-		public void unlink(Participant participant, Suggestion suggestion) {
+		public static void unlink(Participant participant, Suggestion suggestion) {
 			participant._getSuggestion().remove(suggestion);
 			suggestion._setParticipant(null);
 		}
@@ -17,7 +17,7 @@ public class Association {
 
 	public static class Comentar {
 
-		public void link(Participant participant, Commentary comentario, Suggestion suggestion) {
+		public static void link(Participant participant, Commentary comentario, Suggestion suggestion) {
 			comentario._setSuggestion(suggestion);
 			suggestion._getCommentaries().add(comentario);
 
@@ -25,7 +25,7 @@ public class Association {
 			participant._getCommentaries().add(comentario);
 		}
 
-		public void unlink(Commentary comentario) {
+		public static void unlink(Commentary comentario) {
 			comentario.getSuggestion()._getCommentaries().remove(comentario);
 			comentario.getParticipant()._getCommentaries().remove(comentario);
 
