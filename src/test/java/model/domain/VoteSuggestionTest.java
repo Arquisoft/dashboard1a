@@ -73,7 +73,7 @@ public class VoteSuggestionTest {
 	}
 
 	@Test
-	public void testNomberVotesSuggestion1DeleteVote() {
+	public void testNumberVotesSuggestion1DeleteVote() {
 		vote1.deleteVoteSuggestion();
 
 		assertTrue(suggestion1.getVotesSuggestion().size() == 2);
@@ -95,7 +95,7 @@ public class VoteSuggestionTest {
 	}
 
 	@Test
-	public void testNomberVotesSuggestion2DeleteVote() {
+	public void testNumberVotesSuggestion2DeleteVote() {
 		vote4.deleteVoteSuggestion();
 
 		assertTrue(suggestion2.getVotesSuggestion().size() == 2);

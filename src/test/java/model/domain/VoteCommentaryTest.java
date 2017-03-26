@@ -81,7 +81,7 @@ public class VoteCommentaryTest {
 	}
 
 	@Test
-	public void testNomberVotesComentario1DeleteVote() {
+	public void testNumberVotesComentario1DeleteVote() {
 		voto1.deleteVoteCommentary();
 		
 		assertTrue(comentario1.getVotesCommentary().size() == 2);
@@ -105,7 +105,7 @@ public class VoteCommentaryTest {
 	}
 	
 	@Test
-	public void testNomberVotesComentario2DeleteVote() {
+	public void testNumberVotesComentario2DeleteVote() {
 		voto4.deleteVoteCommentary();
 		
 		assertTrue(comentario2.getVotesCommentary().size() == 2);
@@ -129,7 +129,7 @@ public class VoteCommentaryTest {
 	}
 	
 	@Test
-	public void testNomberVotesComentario3DeleteVote() {
+	public void testNumberVotesComentario3DeleteVote() {
 		voto7.deleteVoteCommentary();
 		
 		assertTrue(comentario3.getVotesCommentary().size() == 2);
