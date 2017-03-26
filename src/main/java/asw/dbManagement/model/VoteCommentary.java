@@ -56,6 +56,7 @@ public class VoteCommentary {
 	}
 
 	public void deleteVoteCommentary() {
+		commentary.decrementarNumeroVotos(voteType);
 		Association.VotarCommentary.unlink(this);
 	}
 
