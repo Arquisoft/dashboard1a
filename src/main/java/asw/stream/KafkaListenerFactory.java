@@ -23,6 +23,8 @@ import org.springframework.kafka.listener.ConcurrentMessageListenerContainer;
 @EnableKafka
 public class KafkaListenerFactory {
 
+	// CONSUMIDOR DE MENSAJES
+	
 	@Bean
 	KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<Integer, String>> kafkaListenerContainerFactory() {
 		ConcurrentKafkaListenerContainerFactory<Integer, String> factory = new ConcurrentKafkaListenerContainerFactory<>();
@@ -52,6 +54,11 @@ public class KafkaListenerFactory {
 
 	// PRODUCTOR DE PRUEBA 
 	
+    @Bean
+    public KafkaTemplate<String, String> kafkaTemplate() {
+        return new KafkaTemplate<String, String>(producerFactory());
+    }
+	
 	@Bean
     public ProducerFactory<String, String> producerFactory() {
         return new DefaultKafkaProducerFactory<>(producerConfigs());
@@ -68,10 +75,5 @@ public class KafkaListenerFactory {
         props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
         props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
         return props;
-    }
-
-    @Bean
-    public KafkaTemplate<String, String> kafkaTemplate() {
-        return new KafkaTemplate<String, String>(producerFactory());
     }
 }
