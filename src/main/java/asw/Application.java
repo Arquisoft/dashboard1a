@@ -3,6 +3,7 @@ package asw;
 
 import java.text.ParseException;
 
+import org.apache.log4j.Logger;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -11,10 +12,12 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 import asw.dbManagement.repository.InitParticipantRepository;
 import asw.dbManagement.repository.ParticipantRepository;
+import asw.streamKafka.consumidor.listener.AbstractKafkaListener;
 
 @SpringBootApplication
 @EnableScheduling
 public class Application {
+	public static final Logger logger = Logger.getLogger(AbstractKafkaListener.class);
 
     public static void main(String[] args) {
     	SpringApplication.run(Application.class, args);

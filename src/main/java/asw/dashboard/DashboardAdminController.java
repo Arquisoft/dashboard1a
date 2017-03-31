@@ -5,30 +5,51 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.apache.log4j.Logger;
-import org.springframework.boot.json.JacksonJsonParser;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
-import asw.streamKafka.consumidor.MessageListener.MessageListenerEvent;
+import asw.Application;
+import asw.streamKafka.consumidor.listener.PositiveSuggestionListener.PositiveSuggestionEvent;
 
 @Controller
-public class MainController {
-
-	private static final Logger logger = Logger.getLogger(MainController.class);
+public class DashboardAdminController {
 	private List<SseEmitter> sseEmitters = Collections.synchronizedList(new ArrayList<>());
-	private JacksonJsonParser parser = new JacksonJsonParser();
 
-	@RequestMapping("/")
+	@RequestMapping("/dashboardAdmin")
 	public String handleRequest() {
-		return "index";
+		return "dashboardAdmin";
 	}
 
-	@RequestMapping("/updates")
+	@RequestMapping(path = "/dashboardAdmin", method = RequestMethod.POST)
+	@EventListener
+	public String updatePositiveSuggestion(PositiveSuggestionEvent message) {
+		sendData("");
+		return "";
+	}
+	
+	@RequestMapping("/dashboardAdmin/updatePositiveSuggestion")
 	SseEmitter subscribeUpdates() {
+		return updateHTML();
+	}
+
+	/************** METODOS AUXILIARES *************/
+	
+	void sendData(String data) {
+		synchronized (this.sseEmitters) {
+			for (SseEmitter sseEmitter : this.sseEmitters) {
+				try {
+					sseEmitter.send("");
+				} catch (IOException e) {
+					Application.logger.error("Se ha cerrado el navegador");
+				}
+			}
+		}
+	}
+	
+	SseEmitter updateHTML(){
 		SseEmitter sseEmitter = new SseEmitter();
 		synchronized (this.sseEmitters) {
 			this.sseEmitters.add(sseEmitter);
@@ -39,21 +60,5 @@ public class MainController {
 			});
 		}
 		return sseEmitter;
-	}
-
-	@RequestMapping(path = "/", method = RequestMethod.POST)
-	@EventListener
-	public String showMessage(MessageListenerEvent message) {
-		String data = message.getMessage();
-		synchronized (this.sseEmitters) {
-			for (SseEmitter sseEmitter : this.sseEmitters) {
-				try {
-					sseEmitter.send(parser.parseMap(data).get("message"));
-				} catch (IOException e) {
-					logger.error("Se ha cerrado el navegador");
-				}
-			}
-		}
-		return data;
 	}
 }
