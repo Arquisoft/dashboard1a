@@ -2,6 +2,8 @@ package selenium;
 
 import static org.junit.Assert.assertTrue;
 
+import java.util.concurrent.TimeUnit;
+
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -11,19 +13,18 @@ import org.junit.runners.MethodSorters;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 
 import selenium.page_objects.PO_LoginForm;
-import utils.ThreadUtil;
 
 //@Clean posibles modificaciones en los id al tener prime faces
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class SeleniumTest {
 
 	// NAVEGADOR INTERNO
-	// private static WebDriver driver = new HtmlUnitDriver();
-
-	private static WebDriver driver = new FirefoxDriver();
+	private static WebDriver driver = new HtmlUnitDriver();
+	// FIREFOX
+	// private static WebDriver driver = new FirefoxDriver();
 
 	// private static WebDriver driver = getDriver();
 	private static String URLInicio = "http://localhost:8090";
@@ -45,6 +46,7 @@ public class SeleniumTest {
 	@Before
 	public void setUp() {
 		driver.navigate().to(URLInicio);
+		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 	}
 
 	@After
@@ -55,8 +57,7 @@ public class SeleniumTest {
 	@AfterClass
 	static public void end() {
 		// Espera para que la última prueba borre las cookies
-		ThreadUtil.wait(2000);
-
+		driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
 		driver.quit();
 	}
 
@@ -75,7 +76,7 @@ public class SeleniumTest {
 		// (2) partimos de la pantalla de login
 		new PO_LoginForm().completeForm(driver, "paco@hotmail.com", "123456");
 		// (3) esperamos a que cargue la página principal del politico
-		ThreadUtil.wait(600);
+		driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
 		// (4) comprobamos que estamos en la página principal de los politicos
 
 	}

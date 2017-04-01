@@ -12,12 +12,11 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 import asw.dbManagement.repository.InitParticipantRepository;
 import asw.dbManagement.repository.ParticipantRepository;
-import asw.streamKafka.consumidor.listener.AbstractKafkaListener;
 
 @SpringBootApplication
 @EnableScheduling
 public class Application {
-	public static final Logger logger = Logger.getLogger(AbstractKafkaListener.class);
+	public static final Logger logger = Logger.getLogger(Application.class);
 
     public static void main(String[] args) {
     	SpringApplication.run(Application.class, args);

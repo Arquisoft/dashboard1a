@@ -7,16 +7,33 @@
  	
  	<script type="text/javascript">
 		//<![CDATA[
-		var source = new EventSource("/dashboardAdmin/updatePositiveSuggestion");
-
-		source.onmessage = function(event) {
-			document.getElementById("messages").innerHTML += (event.data + "</br>");
-		};
+		var eventSource = new EventSource("/dashboardAdmin/updates");
+		
+		eventSource.addEventListener("newSuggestion", function(event) {
+	      	var row = document.getElementById("sugerencias").insertRow(-1);
+			row.insertCell(0).innerHTML = event.data;
+			row.insertCell(1).innerHTML = 0;
+			row.insertCell(2).innerHTML = 0;
+    	});
+    	
+    	eventSource.addEventListener("voteSuggestion", function(event) {
+	      	var row = $("td").filter(function() {
+    			return $(this).text() == event.data;
+			}).closest("tr");
+			
+			row.eq(1).text()++;
+    	});
 		//]]>
 	</script>
 </head>
 <body>
 	<h1>Dashboard</h1>
-	<div id="messages"></div>
+	<table id="sugerencias">
+		<tr>
+			<th>Sugerencias</th>
+			<th>Votos</th>
+			<th>Comentarios</th>
+		</tr>
+	</table>
 </body>
 </html>

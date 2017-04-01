@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
+import org.springframework.boot.json.JacksonJsonParser;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.annotation.EnableKafka;
@@ -17,6 +18,7 @@ import org.springframework.kafka.listener.ConcurrentMessageListenerContainer;
 @Configuration
 @EnableKafka
 public class KafkaListenerFactory {
+	public static JacksonJsonParser parser = new JacksonJsonParser();
 
 	// CONSUMIDOR DE MENSAJES
 	

@@ -8,10 +8,11 @@ import java.util.List;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter.SseEventBuilder;
 
 import asw.Application;
+import asw.streamKafka.consumidor.listener.NewSuggestionListener.NewSuggestionEvent;
 import asw.streamKafka.consumidor.listener.PositiveSuggestionListener.PositiveSuggestionEvent;
 
 @Controller
@@ -19,37 +20,28 @@ public class DashboardAdminController {
 	private List<SseEmitter> sseEmitters = Collections.synchronizedList(new ArrayList<>());
 
 	@RequestMapping("/dashboardAdmin")
-	public String handleRequest() {
+	public String landing() {
 		return "dashboardAdmin";
 	}
 
-	@RequestMapping(path = "/dashboardAdmin", method = RequestMethod.POST)
+	@RequestMapping(value= "/newSuggestion")
 	@EventListener
-	public String updatePositiveSuggestion(PositiveSuggestionEvent message) {
-		sendData("");
-		return "";
-	}
-	
-	@RequestMapping("/dashboardAdmin/updatePositiveSuggestion")
-	SseEmitter subscribeUpdates() {
-		return updateHTML();
+	public void newSuggestion(NewSuggestionEvent data) {
+		SseEventBuilder event = SseEmitter.event().name("newSuggestion").data(data.getSuggestion().getIdentificador());
+		sendData(event);
 	}
 
-	/************** METODOS AUXILIARES *************/
-	
-	void sendData(String data) {
-		synchronized (this.sseEmitters) {
-			for (SseEmitter sseEmitter : this.sseEmitters) {
-				try {
-					sseEmitter.send("");
-				} catch (IOException e) {
-					Application.logger.error("Se ha cerrado el navegador");
-				}
-			}
-		}
+	@RequestMapping(value = "/voteSuggestion")
+	@EventListener
+	public void voteSuggestion(PositiveSuggestionEvent data) {
+		SseEventBuilder event = SseEmitter.event().name("voteSuggestion").data(data.getSuggestionId());
+		sendData(event);
 	}
 	
-	SseEmitter updateHTML(){
+	/************** METODOS AUXILIARES *************/
+
+	@RequestMapping("/dashboardAdmin/updates")
+	SseEmitter updateHTML() {
 		SseEmitter sseEmitter = new SseEmitter();
 		synchronized (this.sseEmitters) {
 			this.sseEmitters.add(sseEmitter);
@@ -60,5 +52,17 @@ public class DashboardAdminController {
 			});
 		}
 		return sseEmitter;
+	}
+	
+	void sendData(SseEventBuilder event) {
+		synchronized (this.sseEmitters) {
+			for (SseEmitter sseEmitter : this.sseEmitters) {
+				try {
+					sseEmitter.send(event);
+				} catch (IOException e) {
+					Application.logger.error("Se ha cerrado el navegador");
+				}
+			}
+		}
 	}
 }
