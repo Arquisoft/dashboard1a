@@ -72,6 +72,7 @@ public class SeleniumTest {
 	public void t1_testLoginPoliticoCorrecto() {
 		// (1) comrpobamos que estamos en el login
 
+
 		assertTrue("Titulo de pagina no coincide", driver.getTitle().equals("Login"));
 
 		WebElement texto = driver.findElement(By.id("inputEmail"));
@@ -84,6 +85,7 @@ public class SeleniumTest {
 		assertTrue("texto del boton no coincide", texto.getText().equals("Sign in"));
 
 		// (2) rellenamos el formulario correctamente
+
 		new PO_LoginForm().completeForm(driver, "paco@hotmail.com", "123456");
 		// (3) esperamos a que cargue la página principal del politico
 		driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);

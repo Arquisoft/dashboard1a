@@ -151,4 +151,19 @@ public class VoteCommentaryTest {
 		assertTrue(comentario3.getVotosPositivos() == 0);
 		assertTrue(comentario3.getVotosNegativos() == 0);
 	}
+	
+	@Test
+	public void testMetodosComentario(){
+		comentario1.setContenido("prueba");
+		comentario1.setVotosPositivos(100);
+		comentario1.setVotosNegativos(10);
+		
+		assertTrue(comentario1.getContenido().equals("prueba"));
+		assertTrue(comentario1.getVotosPositivos() == 100);
+		assertTrue(comentario1.getVotosNegativos() == 10);
+		assertTrue(comentario1.getIdentificador().equals("vihvdfibwe"));
+		
+		voto1.setVoteType(VoteType.NEGATIVE);
+		assertTrue(voto1.getVoteType().equals(VoteType.NEGATIVE));
+	}
 }
