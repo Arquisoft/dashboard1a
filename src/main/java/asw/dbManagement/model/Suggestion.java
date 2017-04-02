@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -29,10 +30,13 @@ public class Suggestion {
 
 	@ManyToOne
 	private Participant participant;
-	@OneToMany(mappedBy = "suggestion")
+	@OneToMany(mappedBy = "suggestion", fetch = FetchType.EAGER)
 	private Set<Commentary> commentaries = new HashSet<Commentary>();
 	@OneToMany(mappedBy = "suggestion")
 	private Set<VoteSuggestion> votesSuggestion = new HashSet<VoteSuggestion>();
+
+	private int numComments = 0;
+	private boolean alert;
 
 	Suggestion() {
 	}
@@ -42,7 +46,8 @@ public class Suggestion {
 		this.identificador = identificador;
 	}
 
-	public Suggestion(String identificador, String nombre, String contenido, int votosMinimos, Participant participant) {
+	public Suggestion(String identificador, String nombre, String contenido, int votosMinimos,
+			Participant participant) {
 		this(identificador);
 		this.nombre = nombre;
 		this.contenido = contenido;
@@ -109,7 +114,7 @@ public class Suggestion {
 	Set<Commentary> _getCommentaries() {
 		return commentaries;
 	}
-	
+
 	public Set<VoteSuggestion> getVotesSuggestion() {
 		return new HashSet<VoteSuggestion>(votesSuggestion);
 	}
@@ -120,6 +125,22 @@ public class Suggestion {
 
 	public String getIdentificador() {
 		return identificador;
+	}
+
+	public int getNumComments() {
+		return numComments;
+	}
+
+	public void setNumComments(int numComments) {
+		this.numComments = numComments;
+	}
+
+	public boolean isAlert() {
+		return alert;
+	}
+
+	public void setAlert(boolean alert) {
+		this.alert = alert;
 	}
 
 	@Override
@@ -146,13 +167,14 @@ public class Suggestion {
 			return false;
 		return true;
 	}
-	
+
 	public void deleteSuggestion() {
 		Association.Proponer.unlink(participant, this);
 	}
-	
+
 	/**
 	 * Metodo que incrementa el voto dependiendo del tipo del que este sea.
+	 * 
 	 * @param voteType
 	 */
 	public void incrementarNumeroVotos(VoteType voteType) {
@@ -161,12 +183,13 @@ public class Suggestion {
 		else if (voteType.equals(VoteType.NEGATIVE))
 			votosNegativos++;
 	}
-	
+
 	/**
 	 * Metodo que decrementa el voto dependiendo del tipo del que este sea.
+	 * 
 	 * @param voteType
 	 */
-	public void decrementarNumeroVotos(VoteType voteType){
+	public void decrementarNumeroVotos(VoteType voteType) {
 		if (voteType.equals(VoteType.POSITIVE))
 			votosPositivos--;
 		else if (voteType.equals(VoteType.NEGATIVE))

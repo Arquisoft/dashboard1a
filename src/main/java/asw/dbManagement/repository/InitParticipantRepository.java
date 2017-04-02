@@ -13,6 +13,7 @@ public class InitParticipantRepository {
 		
 		// Formato para la fecha
 		DateFormat formatter1 = new SimpleDateFormat("mm/DD/yyyy");
+		
 		// Obtención de fecha
 		Date fecha = (Date) formatter1.parse("08/16/1970");
 		// Inserción en la base de datos

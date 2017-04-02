@@ -23,9 +23,15 @@ public class Association {
 
 			comentario._setParticipant(participant);
 			participant._getCommentaries().add(comentario);
+			
+			int num = suggestion.getNumComments() + 1;
+			suggestion.setNumComments(num);
 		}
 
 		public static void unlink(Commentary comentario) {
+			int num = comentario.getSuggestion().getNumComments();
+			comentario.getSuggestion().setNumComments(num--);
+			
 			comentario.getSuggestion()._getCommentaries().remove(comentario);
 			comentario.getParticipant()._getCommentaries().remove(comentario);
 

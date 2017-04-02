@@ -49,9 +49,9 @@ public class GetParticipantInfoHTMLController {
 			return "datosParticipant";
 		} else {
 			if (participant.isAdmin())
-				return "dashboardAdmin";
+				return "redirect:/dashboardAdmin";
 			else
-				return "dashboardPolitician";
+				return "redirect:/dashboardPolitician";
 		}
 
 	}

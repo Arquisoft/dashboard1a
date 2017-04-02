@@ -6,6 +6,7 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -36,9 +37,9 @@ public class Participant {
 	private boolean isAdmin;
 	private boolean isPolitician;
 
-	@OneToMany(mappedBy = "participant")
+	@OneToMany(mappedBy = "participant", fetch=FetchType.EAGER)
 	private Set<Suggestion> suggestions = new HashSet<Suggestion>();
-	@OneToMany(mappedBy = "participant")
+	@OneToMany(mappedBy = "participant", fetch=FetchType.EAGER)
 	private Set<Commentary> commentaries = new HashSet<Commentary>();
 	@OneToMany(mappedBy = "participant")
 	private Set<VoteSuggestion> votesSuggestion = new HashSet<VoteSuggestion>();

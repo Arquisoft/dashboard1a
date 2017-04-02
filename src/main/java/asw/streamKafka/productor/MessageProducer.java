@@ -14,12 +14,18 @@ import org.springframework.util.concurrent.ListenableFuture;
 import org.springframework.util.concurrent.ListenableFutureCallback;
 
 import asw.Application;
+import asw.dbManagement.model.Commentary;
+import asw.dbManagement.model.Participant;
 import asw.dbManagement.model.Suggestion;
+import asw.dbManagement.model.types.VoteType;
+import asw.dbManagement.repository.CommentaryRepository;
+import asw.dbManagement.repository.ParticipantRepository;
 import asw.dbManagement.repository.SuggestionRepository;
 
 @ManagedBean
 public class MessageProducer {
 	public final static String NEW_SUGGESTION = "newSuggestion";
+	public final static String ALERT_SUGGESTION = "alertSuggestion";
 	public final static String NEW_COMMENT = "newComment";
 	public final static String POSITIVE_COMMENT = "positiveComment";
 	public final static String NEGATIVE_COMMENT = "negativeComment";
@@ -34,36 +40,60 @@ public class MessageProducer {
 	@Autowired
 	SuggestionRepository suggestionRepository;
 
+	@Autowired
+	CommentaryRepository commentaryRepository;
+
+	@Autowired
+	ParticipantRepository participantRepository;
+
 	@Scheduled(cron = "*/5 * * * * *")
 	public void sendNewSuggestion() {
+		Participant p = participantRandom();
 		String id = nextId();
-		suggestionRepository.save(new Suggestion(id));
-
+		
+		suggestionRepository.save(new Suggestion(id, "prueba", "prueba de sugerencia", 1, p));
+		
 		// Identificador de la sugerencia
-		send(NEW_SUGGESTION, id);
+		send(NEW_SUGGESTION, "{ \"suggestion\":\"" + id + "\"}");
 	}
 
 	@Scheduled(cron = "*/15 * * * * *")
 	public void sendPositiveSuggestion() {
-		int s = randomInt(1, suggestionRepository.findAll().size() - 1);
-		String id = suggestionRepository.findAll().get(s).getIdentificador();
+		Suggestion s = suggestionRandom();
+		s.incrementarNumeroVotos(VoteType.POSITIVE);
+		suggestionRepository.save(s);
+		
+		// Identificador de la sugerencia
+		send(POSITIVE_SUGGESTION, "{ \"suggestion\":\"" + s.getIdentificador() + "\"}");
 
-		Application.logger.info("Voto a " + id);
-
-		// Identificador sugerencia
-		send(POSITIVE_SUGGESTION, id);
+		if (s.getVotosMinimos() == s.getVotosPositivos() && !s.isAlert()) {
+			s.setAlert(true);
+			suggestionRepository.save(s);
+			
+			send(ALERT_SUGGESTION, "{ \"suggestion\":\"" + s.getIdentificador() + "\"}");
+			Application.logger.info("Alerta a" + s.getIdentificador());
+		}
+		
+		Application.logger
+		.info("Voto a " + s.getIdentificador() + ", nº votos " + s.getVotosPositivos());
 	}
 
 	@Scheduled(cron = "*/20 * * * * *")
 	public void sendNewComment() {
-		int s = randomInt(1, suggestionRepository.findAll().size() - 1);
-		String id = suggestionRepository.findAll().get(s).getIdentificador();
+		Suggestion s = suggestionRandom();
+		Participant p = participantRandom();
+		String id = nextId();
 
-		Application.logger.info("Comentario en " + id);
+		commentaryRepository.save(new Commentary(id, "prueba", p, s));
+		suggestionRepository.save(s);
 
 		// Identificador del comentario y de la sugerencia
-		String message = "{ \"comment\":\"" + nextId() + "\", \"suggestion\":\"" + id + "\"}";
+		String message = "{ \"comment\":\"" + id + "\", \"suggestion\":\"" + s.getIdentificador()
+				+ "\"}";
 		send(NEW_COMMENT, message);
+		
+		Application.logger.info(
+				"Comentario en " + s.getIdentificador() + ", nº comentarios " + s.getNumComments());
 	}
 	//
 	// @Scheduled(cron = "*/5 * * * * *")
@@ -103,8 +133,19 @@ public class MessageProducer {
 	}
 
 	/********************* METODOS AUXILIARES ***********************/
+
 	private String nextId() {
 		return new BigInteger(130, random).toString(32);
+	}
+
+	private Suggestion suggestionRandom() {
+		int s = randomInt(0, suggestionRepository.findAll().size() - 1);
+		return suggestionRepository.findAll().get(s);
+	}
+
+	private Participant participantRandom() {
+		int s = randomInt(0, participantRepository.findAll().size() - 1);
+		return participantRepository.findAll().get(s);
 	}
 
 	private int randomInt(int min, int max) {

@@ -28,7 +28,8 @@ public class Application {
     }
     
     @Bean
-	public CommandLineRunner initDB(ParticipantRepository repository) throws ParseException {
+	public CommandLineRunner initParticipantRepository(ParticipantRepository repository) throws ParseException {
     	return (args) -> { InitParticipantRepository.initDB(repository); };
     }
+    
 }

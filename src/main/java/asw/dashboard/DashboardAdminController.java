@@ -5,44 +5,57 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.springframework.context.event.EventListener;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter.SseEventBuilder;
 
 import asw.Application;
-import asw.streamKafka.consumidor.listener.NewCommentListener.NewCommentEvent;
-import asw.streamKafka.consumidor.listener.NewSuggestionListener.NewSuggestionEvent;
-import asw.streamKafka.consumidor.listener.PositiveSuggestionListener.PositiveSuggestionEvent;
+import asw.dbManagement.repository.SuggestionRepository;
+import asw.streamKafka.productor.MessageProducer;
 
 @Controller
 public class DashboardAdminController {
+	@Autowired
+	private SuggestionRepository suggestionRepository;
+	
 	private List<SseEmitter> sseEmitters = Collections.synchronizedList(new ArrayList<>());
 
 	@RequestMapping("/dashboardAdmin")
-	public String landing() {
+	public String landing(Model model) {
+		// Muestra todas las sugerencias de la base de datos
+		model.addAttribute("allSuggestions", suggestionRepository.findAll());
 		return "dashboardAdmin";
 	}
 
 	@RequestMapping(value= "/newSuggestion")
-	@EventListener
-	public void newSuggestion(NewSuggestionEvent data) {
-		SseEventBuilder event = SseEmitter.event().name("newSuggestion").data(data.getSuggestion().getIdentificador());
+	@KafkaListener(topics = MessageProducer.NEW_SUGGESTION)
+	public void newSuggestion(String data) {
+		SseEventBuilder event = SseEmitter.event().name("newSuggestion").data(data);
+		sendData(event);
+	}
+	
+	@RequestMapping(value = "/alertSuggestion")
+	@KafkaListener(topics = MessageProducer.ALERT_SUGGESTION)
+	public void alertSuggestion(String data) {
+		SseEventBuilder event = SseEmitter.event().name("alertSuggestion").data(data);
 		sendData(event);
 	}
 
 	@RequestMapping(value = "/voteSuggestion")
-	@EventListener
-	public void voteSuggestion(PositiveSuggestionEvent data) {
-		SseEventBuilder event = SseEmitter.event().name("voteSuggestion").data(data.getSuggestionId());
+	@KafkaListener(topics = MessageProducer.POSITIVE_SUGGESTION)
+	public void voteSuggestion(String data) {
+		SseEventBuilder event = SseEmitter.event().name("voteSuggestion").data(data);
 		sendData(event);
 	}
 	
 	@RequestMapping(value = "/newComment")
-	@EventListener
-	public void newComment(NewCommentEvent data) {
-		SseEventBuilder event = SseEmitter.event().name("newComment").data(data.getSuggestionId());
+	@KafkaListener(topics = MessageProducer.NEW_COMMENT)
+	public void newComment(String data) {
+		SseEventBuilder event = SseEmitter.event().name("newComment").data(data);
 		sendData(event);
 	}
 	
