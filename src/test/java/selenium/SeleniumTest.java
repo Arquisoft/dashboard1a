@@ -67,23 +67,35 @@ public class SeleniumTest {
 
 	// @Complete : añadir usuarios para poder probar la aplicacion
 	@Test
-	public void t1_testLoginPolitico() {
+	public void t1_testLoginPoliticoCorrecto() {
 		// (1) comrpobamos que estamos en el login
 		WebElement label = driver.findElement(By.id("email_label"));
 		assertTrue("El texto no coincide", label.getText().equals("Usuario:"));
 		label = driver.findElement(By.id("password_label"));
 		assertTrue("El texto no coincide", label.getText().equals("Contraseña:"));
-		// (2) partimos de la pantalla de login
+		// (2) rellenamos el formulario correctamente
 		new PO_LoginForm().completeForm(driver, "paco@hotmail.com", "123456");
 		// (3) esperamos a que cargue la página principal del politico
 		driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
 		// (4) comprobamos que estamos en la página principal de los politicos
+		//assertTrue();
 
 	}
 
 	@Test
-	public void t2_testEntrarEnTarea() {
+	public void t2_testLoginPoliticoIncorrecto() {
 		// assertTrue("Sin implemtenar", false);
+		//(1) Comprobamos que estamos en la página de login
+		WebElement label = driver.findElement(By.id("email_label"));
+		assertTrue("El texto no coincide", label.getText().equals("Usuario:"));
+		label = driver.findElement(By.id("password_label"));
+		assertTrue("El texto no coincide", label.getText().equals("Contraseña:"));
+		//(2) rellenamos el formulario con datos no válidos
+		new PO_LoginForm().completeForm(driver, "noexisto@hotmail.com", "asdfghjl");
+		//(3)  comprobamos que estemos en la página de error
+		
+		
+		
 	}
 
 }
