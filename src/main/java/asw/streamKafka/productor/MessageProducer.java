@@ -2,6 +2,7 @@ package asw.streamKafka.productor;
 
 import java.math.BigInteger;
 import java.security.SecureRandom;
+import java.util.Random;
 
 import javax.annotation.ManagedBean;
 
@@ -42,13 +43,28 @@ public class MessageProducer {
 		send(NEW_SUGGESTION, id);
 	}
 
-	// @Scheduled(cron = "*/15 * * * * *")
-	// public void sendNewComment() {
-	// contador++;
-	// // Identificador del comentario
-	// String message = "C" + contador;
-	// send(NEW_COMMENT, message);
-	// }
+	@Scheduled(cron = "*/15 * * * * *")
+	public void sendPositiveSuggestion() {
+		int s = randomInt(1, suggestionRepository.findAll().size() - 1);
+		String id = suggestionRepository.findAll().get(s).getIdentificador();
+
+		Application.logger.info("Voto a " + id);
+
+		// Identificador sugerencia
+		send(POSITIVE_SUGGESTION, id);
+	}
+
+	@Scheduled(cron = "*/20 * * * * *")
+	public void sendNewComment() {
+		int s = randomInt(1, suggestionRepository.findAll().size() - 1);
+		String id = suggestionRepository.findAll().get(s).getIdentificador();
+
+		Application.logger.info("Comentario en " + id);
+
+		// Identificador del comentario y de la sugerencia
+		String message = "{ \"comment\":\"" + nextId() + "\", \"suggestion\":\"" + id + "\"}";
+		send(NEW_COMMENT, message);
+	}
 	//
 	// @Scheduled(cron = "*/5 * * * * *")
 	// public void sendPositiveComment() {
@@ -71,14 +87,6 @@ public class MessageProducer {
 	// }
 	//
 
-	@Scheduled(cron = "*/15 * * * * *")
-	public void sendPositiveSuggestion() {
-		Application.logger
-				.info("Voto a " + suggestionRepository.findAll().get(1).getIdentificador());
-		// Identificador sugerencia
-		send(POSITIVE_SUGGESTION, suggestionRepository.findAll().get(1).getIdentificador());
-	}
-
 	private void send(String topic, String message) {
 		ListenableFuture<SendResult<String, String>> future = template.send(topic, message);
 		future.addCallback(new ListenableFutureCallback<SendResult<String, String>>() {
@@ -94,7 +102,13 @@ public class MessageProducer {
 		});
 	}
 
-	public String nextId() {
+	/********************* METODOS AUXILIARES ***********************/
+	private String nextId() {
 		return new BigInteger(130, random).toString(32);
+	}
+
+	private int randomInt(int min, int max) {
+		Random rn = new Random();
+		return rn.nextInt(max - min + 1) + min;
 	}
 }

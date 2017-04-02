@@ -12,6 +12,7 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter.SseEventBuilder;
 
 import asw.Application;
+import asw.streamKafka.consumidor.listener.NewCommentListener.NewCommentEvent;
 import asw.streamKafka.consumidor.listener.NewSuggestionListener.NewSuggestionEvent;
 import asw.streamKafka.consumidor.listener.PositiveSuggestionListener.PositiveSuggestionEvent;
 
@@ -35,6 +36,13 @@ public class DashboardAdminController {
 	@EventListener
 	public void voteSuggestion(PositiveSuggestionEvent data) {
 		SseEventBuilder event = SseEmitter.event().name("voteSuggestion").data(data.getSuggestionId());
+		sendData(event);
+	}
+	
+	@RequestMapping(value = "/newComment")
+	@EventListener
+	public void newComment(NewCommentEvent data) {
+		SseEventBuilder event = SseEmitter.event().name("newComment").data(data.getSuggestionId());
 		sendData(event);
 	}
 	
