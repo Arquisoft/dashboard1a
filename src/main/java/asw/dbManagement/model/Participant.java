@@ -178,7 +178,7 @@ public class Participant {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((DNI == null) ? 0 : DNI.hashCode());
 		return result;
 	}
 
@@ -191,12 +191,22 @@ public class Participant {
 		if (getClass() != obj.getClass())
 			return false;
 		Participant other = (Participant) obj;
-		if (id == null) {
-			if (other.id != null)
+		if (DNI == null) {
+			if (other.DNI != null)
 				return false;
-		} else if (!id.equals(other.id))
+		} else if (!DNI.equals(other.DNI))
 			return false;
 		return true;
 	}
+
+	@Override
+	public String toString() {
+		return "Participant [id=" + id + ", nombre=" + nombre + ", apellidos=" + apellidos + ", password=" + password
+				+ ", fechaNacimiento=" + fechaNacimiento + ", email=" + email + ", DNI=" + DNI + ", direccion="
+				+ direccion + ", nacionalidad=" + nacionalidad + ", isAdmin=" + isAdmin + ", isPolitician="
+				+ isPolitician + "]";
+	}
+	
+	
 
 }
