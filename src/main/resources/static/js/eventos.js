@@ -2,7 +2,7 @@ var eventSource = new EventSource("/dashboardAdmin/updates");
 		
 eventSource.addEventListener("newSuggestion", function(event) {
   	var row = document.getElementById("sugerencias").insertRow(-1);
-	row.insertCell(0).innerHTML = event.data;
+	row.insertCell(0).outerHTML = "<th>"+event.data+"</th>";
 	row.insertCell(1).innerHTML = 0;
 	row.insertCell(2).innerHTML = 0;
 });

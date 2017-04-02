@@ -16,7 +16,7 @@ public class PO_LoginForm {
 	
 	public void completeForm(WebDriver driver, String loginValue,String passwordValue){
 		//(1) encontramos el input para el correo y lo rellenamos
-		WebElement login = driver.findElement(By.id("email"));
+		WebElement login = driver.findElement(By.id("inputEmail"));
 		
 		login.click();
 		login.clear();
@@ -24,7 +24,7 @@ public class PO_LoginForm {
 		
 		ThreadUtil.wait(500);
 		//(2) encontramos el input para la password y lo rellenamos
-		WebElement password = driver.findElement(By.id("password"));
+		WebElement password = driver.findElement(By.id("inputPassword"));
 		
 		password.click();
 		password.clear();

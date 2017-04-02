@@ -70,9 +70,9 @@ public class SeleniumTest {
 	public void t1_testLoginPolitico() {
 		// (1) comrpobamos que estamos en el login
 		WebElement label = driver.findElement(By.id("email_label"));
-		assertTrue("El texto no coincide", label.getText().equals("Usuario:"));
+		assertTrue("El texto no coincide", label.getText().equals("User"));
 		label = driver.findElement(By.id("password_label"));
-		assertTrue("El texto no coincide", label.getText().equals("Contraseña:"));
+		assertTrue("El texto no coincide", label.getText().equals("Password"));
 		// (2) partimos de la pantalla de login
 		new PO_LoginForm().completeForm(driver, "paco@hotmail.com", "123456");
 		// (3) esperamos a que cargue la página principal del politico
