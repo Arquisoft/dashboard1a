@@ -137,4 +137,21 @@ public class VoteSuggestionTest {
 		assertTrue(suggestion3.getVotosPositivos() == 0);
 		assertTrue(suggestion3.getVotosNegativos() == 0);
 	}
+	
+	@Test
+	public void testMetodosSuggestion(){
+		suggestion1.setContenido("Eliminar prohibicion al botellones");
+		suggestion1.setNombre("Botellones");
+		suggestion1.setVotosMinimos(50);
+		suggestion1.setVotosNegativos(10);
+		
+		assertTrue(suggestion1.getContenido().equals("Eliminar prohibicion al botellones"));
+		assertTrue(suggestion1.getNombre().equals("Botellones"));
+		assertTrue(suggestion1.getIdentificador().equals("1352479651675846"));
+		assertTrue(suggestion1.getVotosMinimos() == 50);
+		assertTrue(suggestion1.getVotosNegativos() == 10);
+		
+		vote1.setVoteType(VoteType.NEGATIVE);
+		assertTrue(vote1.getVoteType().equals(VoteType.NEGATIVE));
+	}
 }
