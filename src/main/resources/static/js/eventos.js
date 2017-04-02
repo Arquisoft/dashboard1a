@@ -8,21 +8,21 @@ eventSource.addEventListener("newSuggestion", function(event) {
 });
     	
 eventSource.addEventListener("voteSuggestion", function(event) {
-  	var value = parseInt($('td').filter(function() {
+  	var value = parseInt($('th').filter(function() {
 					return $(this).text() === event.data;
-				}).closest('tr').children('td').eq(1).text());
+				}).closest('tr').children('td').eq(0).text());
 
-	$('td').filter(function() {
+	$('th').filter(function() {
 		return $(this).text() === event.data;
-	}).closest('tr').children('td').eq(1).html(value+1);
+	}).closest('tr').children('td').eq(0).html(value+1);
 });
 
 eventSource.addEventListener("newComment", function(event) {
-  	var value = parseInt($('td').filter(function() {
+  	var value = parseInt($('th').filter(function() {
 					return $(this).text() === event.data;
-				}).closest('tr').children('td').eq(2).text());
+				}).closest('tr').children('td').eq(1).text());
 
-	$('td').filter(function() {
+	$('th').filter(function() {
 		return $(this).text() === event.data;
-	}).closest('tr').children('td').eq(2).html(value+1);
+	}).closest('tr').children('td').eq(1).html(value+1);
 });
