@@ -1,25 +1,26 @@
 <!DOCTYPE HTML>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
- 	<meta charset="UTF-8"/>
+	<meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    
  	<title>Login</title>
+ 	<link th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>
+ 	<link th:href="@{/css/login.css}" rel="stylesheet"/>
 </head>
 <body>
-<h1>Login</h1>
-<form method="POST" action="login" >
-	<table>
-		<tr>
-			<td><label id="email_label" for="email"><strong>Usuario:</strong> </label></td>
-			<td><input type="text" id="email" name="email"/></td>
-		</tr>
-		<tr>
-			<td><label id="password_label" for="password"><strong>Contraseña:</strong> </label></td>
-			<td><input type="password" id="password" name="password" /></td>
-		</tr>
-		<tr>
-			<td><button type="submit" id="boton_login">Entrar</button></td>
-		</tr>
-	</table>
-</form>
+<div class="container">
+	<center><h2 class="form-signin-heading">Login</h2></center>
+	<form class="form-signin" method="POST" action="login" >
+		<label id="email_label" for="inputEmail" class="sr-only">User</label>
+		<input id="inputEmail" name="email" type="email" class="form-control" placeholder="Email address" required="required" autofocus="autofocus"/>
+		
+		<label id="password_label" for="inputPassword" class="sr-only">Password</label>
+		<input id="inputPassword" name="password" type="password" class="form-control" placeholder="Password" required="required"/>
+		
+		<button type="submit" id="boton_login" class="btn btn-lg btn-primary btn-block">Sign in</button>
+	</form>
+</div>
 </body>
 </html>
