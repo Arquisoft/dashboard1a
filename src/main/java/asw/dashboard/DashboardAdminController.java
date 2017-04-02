@@ -46,6 +46,8 @@ public class DashboardAdminController {
 		sendData(event);
 	}
 	
+	// Quedaria otra pantalla para los comentarios por sugerencia
+	
 	/************** METODOS AUXILIARES *************/
 
 	@RequestMapping("/dashboardAdmin/updates")
