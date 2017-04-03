@@ -33,7 +33,6 @@ public class VoteCommentary {
 	}
 
 	public VoteCommentary(Participant participant, Commentary commentary, VoteType voteType) {
-		// TODO Auto-generated constructor stub
 		this.voteType = voteType;
 		Association.VotarCommentary.link(participant, this, commentary);
 		commentary.incrementarNumeroVotos(voteType);		
@@ -43,7 +42,7 @@ public class VoteCommentary {
 		return participant;
 	}
 
-	void _setParticipant(Participant participant) {
+	protected void _setParticipant(Participant participant) {
 		this.participant = participant;
 	}
 
@@ -51,7 +50,7 @@ public class VoteCommentary {
 		return commentary;
 	}
 
-	void _setComentary(Commentary commentary) {
+	protected void _setComentary(Commentary commentary) {
 		this.commentary = commentary;
 	}
 

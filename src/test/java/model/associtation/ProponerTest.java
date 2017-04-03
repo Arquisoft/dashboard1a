@@ -1,5 +1,6 @@
 package model.associtation;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Date;
@@ -34,7 +35,7 @@ public class ProponerTest {
 	public void testProponerUnLink() {
 		suggestion.deleteSuggestion();
 
-		assertTrue(!participant.getSuggestion().contains(suggestion));
+		assertFalse(participant.getSuggestion().contains(suggestion));
 		assertTrue(participant.getSuggestion().size() == 0);
 		assertTrue(suggestion.getParticipant() == null);
 	}

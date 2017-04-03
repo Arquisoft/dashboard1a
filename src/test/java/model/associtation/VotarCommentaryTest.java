@@ -48,8 +48,8 @@ public class VotarCommentaryTest {
 	public void testVotarSuggestionUnLink() {
 		voto.deleteVoteCommentary();
 
-		assertTrue(!participant.getVotesCommentary().contains(voto));
-		assertTrue(!commentary.getVotesCommentary().contains(voto));
+		assertFalse(participant.getVotesCommentary().contains(voto));
+		assertFalse(commentary.getVotesCommentary().contains(voto));
 
 		assertTrue(voto.getParticipant() == null);
 		assertTrue(voto.getCommentary() == null);

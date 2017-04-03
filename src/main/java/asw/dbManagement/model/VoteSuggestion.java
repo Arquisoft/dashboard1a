@@ -30,7 +30,6 @@ public class VoteSuggestion {
 	}
 
 	public VoteSuggestion(Participant participant, Suggestion suggestion, VoteType voteType) {
-		// TODO Auto-generated constructor stub
 		this.voteType = voteType;
 		Association.VotarSuggestion.link(participant, this, suggestion);
 		suggestion.incrementarNumeroVotos(voteType);
@@ -40,7 +39,7 @@ public class VoteSuggestion {
 		return participant;
 	}
 
-	void _setParticipant(Participant participant) {
+	protected void _setParticipant(Participant participant) {
 		this.participant = participant;
 	}
 
@@ -48,7 +47,7 @@ public class VoteSuggestion {
 		return suggestion;
 	}
 
-	void _setSuggestion(Suggestion suggestion) {
+	protected void _setSuggestion(Suggestion suggestion) {
 		this.suggestion = suggestion;
 	}
 

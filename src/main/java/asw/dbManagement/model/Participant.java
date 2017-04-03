@@ -147,7 +147,7 @@ public class Participant {
 		return new HashSet<Suggestion>(suggestions);
 	}
 
-	Set<Suggestion> _getSuggestion() {
+	protected Set<Suggestion> _getSuggestion() {
 		return suggestions;
 	}
 
@@ -155,7 +155,7 @@ public class Participant {
 		return new HashSet<Commentary>(commentaries);
 	}
 
-	Set<Commentary> _getCommentaries() {
+	protected Set<Commentary> _getCommentaries() {
 		return commentaries;
 	}
 
@@ -163,7 +163,7 @@ public class Participant {
 		return new HashSet<VoteSuggestion>(votesSuggestion);
 	}
 
-	Set<VoteSuggestion> _getVotesSuggestion() {
+	protected Set<VoteSuggestion> _getVotesSuggestion() {
 		return votesSuggestion;
 	}
 	
@@ -171,7 +171,7 @@ public class Participant {
 		return new HashSet<VoteCommentary>(votesCommentaries);
 	}
 
-	Set<VoteCommentary> _getVotesCommentary() {
+	protected Set<VoteCommentary> _getVotesCommentary() {
 		return votesCommentaries;
 	}
 
@@ -207,7 +207,4 @@ public class Participant {
 				+ direccion + ", nacionalidad=" + nacionalidad + ", isAdmin=" + isAdmin + ", isPolitician="
 				+ isPolitician + "]";
 	}
-	
-	
-
 }

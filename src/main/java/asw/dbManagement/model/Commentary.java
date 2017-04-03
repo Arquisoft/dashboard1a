@@ -74,7 +74,7 @@ public class Commentary {
 		return participant;
 	}
 
-	void _setParticipant(Participant participant) {
+	protected void _setParticipant(Participant participant) {
 		this.participant = participant;
 	}
 
@@ -82,7 +82,7 @@ public class Commentary {
 		return suggestion;
 	}
 
-	void _setSuggestion(Suggestion suggestion) {
+	protected void _setSuggestion(Suggestion suggestion) {
 		this.suggestion = suggestion;
 	}
 
@@ -94,7 +94,7 @@ public class Commentary {
 		return new HashSet<VoteCommentary>(votesCommentaries);
 	}
 
-	Set<VoteCommentary> _getVotesCommentary() {
+	protected Set<VoteCommentary> _getVotesCommentary() {
 		return votesCommentaries;
 	}
 

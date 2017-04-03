@@ -1,5 +1,6 @@
 package model.associtation;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Date;
@@ -44,8 +45,8 @@ public class ComentarTest {
 	public void testComentarUnLink(){
 		commentary.deleteComment();
 		
-		assertTrue(!participantComentario.getCommentaries().contains(commentary));
-		assertTrue(!suggestion.getCommentaries().contains(commentary));
+		assertFalse(participantComentario.getCommentaries().contains(commentary));
+		assertFalse(suggestion.getCommentaries().contains(commentary));
 		
 		assertTrue(commentary.getParticipant() == null);
 		assertTrue(commentary.getSuggestion() == null);
