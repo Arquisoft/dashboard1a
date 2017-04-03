@@ -1,5 +1,7 @@
 package model.domain;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Date;
@@ -137,21 +139,43 @@ public class VoteSuggestionTest {
 		assertTrue(suggestion3.getVotosPositivos() == 0);
 		assertTrue(suggestion3.getVotosNegativos() == 0);
 	}
-	
+
 	@Test
-	public void testMetodosSuggestion(){
+	public void testMetodosSuggestion() {
 		suggestion1.setContenido("Eliminar prohibicion al botellones");
 		suggestion1.setNombre("Botellones");
 		suggestion1.setVotosMinimos(50);
 		suggestion1.setVotosNegativos(10);
-		
+		suggestion1.setVotosPositivos(10);
+		suggestion1.setAlert(true);
+
 		assertTrue(suggestion1.getContenido().equals("Eliminar prohibicion al botellones"));
 		assertTrue(suggestion1.getNombre().equals("Botellones"));
 		assertTrue(suggestion1.getIdentificador().equals("1352479651675846"));
 		assertTrue(suggestion1.getVotosMinimos() == 50);
 		assertTrue(suggestion1.getVotosNegativos() == 10);
-		
+		assertTrue(suggestion1.getVotosPositivos() == 10);
+		assertTrue(suggestion1.isAlert());
+
 		vote1.setVoteType(VoteType.NEGATIVE);
 		assertTrue(vote1.getVoteType().equals(VoteType.NEGATIVE));
+	}
+
+	@Test
+	public void testMetodoEqualsHashCode() {
+		assertFalse(suggestion1.equals(suggestion2));
+		assertFalse(suggestion1.equals(4));
+		assertFalse(suggestion1.equals(null));
+		assertTrue(suggestion1.equals(suggestion1));
+		
+		assertFalse(vote1.equals(vote2));
+		assertFalse(vote1.equals(4));
+		assertFalse(vote1.equals(null));
+		assertTrue(vote1.equals(vote1));
+	}
+	
+	@Test
+	public void testVoteSuggestionToString(){
+		assertEquals(vote1.toString(),"VoteSuggestion [participant=" + participant1 + ", suggestion=" + suggestion1 + "]");
 	}
 }

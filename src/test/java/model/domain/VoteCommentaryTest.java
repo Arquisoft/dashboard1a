@@ -1,5 +1,7 @@
 package model.domain;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Date;
@@ -165,5 +167,23 @@ public class VoteCommentaryTest {
 		
 		voto1.setVoteType(VoteType.NEGATIVE);
 		assertTrue(voto1.getVoteType().equals(VoteType.NEGATIVE));
+	}
+	
+	@Test
+	public void testMetodoEqualsHashCode() {
+		assertFalse(comentario1.equals(suggestion2));
+		assertFalse(comentario1.equals(4));
+		assertFalse(comentario1.equals(null));
+		assertTrue(comentario1.equals(comentario1));
+		
+		assertFalse(voto1.equals(voto2));
+		assertFalse(voto1.equals(4));
+		assertFalse(voto1.equals(null));
+		assertTrue(voto1.equals(voto1));
+	}
+	
+	@Test
+	public void testVoteSuggestionToString(){
+		assertEquals(voto1.toString(),"VoteCommentary [participant=" + participant1 + ", comentary=" + comentario1 + "]");
 	}
 }
