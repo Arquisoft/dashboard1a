@@ -75,7 +75,7 @@ public class SeleniumTest {
 	 * ========= PRUEBAS =========
 	 */
 
-	// @Complete : añadir usuarios para poder probar la aplicacion
+	// @Clean : se confundió al politico con el administrador del sistema
 //	@Test
 //	public void t1_testLoginPoliticoCorrecto() {
 //
@@ -186,5 +186,9 @@ public class SeleniumTest {
 				driver.findElement(By.cssSelector("h2.sub-header")).getText().equals("Suggestions"));
 		ThreadUtil.wait(2000);
 	}
+	
+	
+	
+	
 
 }
