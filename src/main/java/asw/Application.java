@@ -30,6 +30,6 @@ public class Application {
     @Bean
 	public CommandLineRunner initParticipantRepository(ParticipantRepository repository) throws ParseException {
     	return (args) -> { InitParticipantRepository.initDB(repository); };
-    }
+    }    
     
 }
