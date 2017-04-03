@@ -187,7 +187,27 @@ public class SeleniumTest {
 		ThreadUtil.wait(2000);
 	}
 	
-	
+	@Test
+	public void t5_testEntrarEnTarea(){
+		// (1) realizamos un login
+		assertTrue("Titulo de pagina no coincide", driver.getTitle().equals("Login"));
+
+		WebElement texto = driver.findElement(By.id("inputEmail"));
+		assertTrue("placeholder no coincide", texto.getAttribute("placeholder").equals("Email address"));
+
+		texto = driver.findElement(By.id("inputPassword"));
+		assertTrue("placeholder no coincide", texto.getAttribute("placeholder").equals("Password"));
+
+		texto = driver.findElement(By.id("boton_login"));
+		assertTrue("texto del boton no coincide", texto.getText().equals("Sign in"));
+		
+		new PO_LoginForm().completeForm(driver, "maria@gmail.com", "123456");
+		//(2) validamos que estamos en la ventana adecuada
+		
+		assertTrue("Titulo no se corresponde", driver.getTitle().equals("Dashboard"));
+		assertTrue("Subtitulo no tiene el mismo texto",
+				driver.findElement(By.cssSelector("h2.sub-header")).getText().equals("Suggestions"));
+	}
 	
 	
 
