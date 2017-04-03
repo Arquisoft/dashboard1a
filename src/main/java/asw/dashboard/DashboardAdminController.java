@@ -30,6 +30,11 @@ public class DashboardAdminController {
 		model.addAttribute("allSuggestions", suggestionRepository.findAll());
 		return "dashboardAdmin";
 	}
+	
+	@RequestMapping("/dashboardGrafica")
+	public String menubar(Model model) {
+		return "dashboardGrafica";
+	}
 
 	@RequestMapping(value= "/newSuggestion")
 	@KafkaListener(topics = MessageProducer.NEW_SUGGESTION)
