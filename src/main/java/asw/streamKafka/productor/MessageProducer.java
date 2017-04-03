@@ -24,13 +24,6 @@ import asw.dbManagement.repository.SuggestionRepository;
 
 @ManagedBean
 public class MessageProducer {
-	public final static String NEW_SUGGESTION = "newSuggestion";
-	public final static String ALERT_SUGGESTION = "alertSuggestion";
-	public final static String NEW_COMMENT = "newComment";
-	public final static String POSITIVE_COMMENT = "positiveComment";
-	public final static String NEGATIVE_COMMENT = "negativeComment";
-	public final static String POSITIVE_SUGGESTION = "positiveSuggestion";
-
 	// Para generar codigos aleatorios alfanumericos
 	private SecureRandom random = new SecureRandom();
 
@@ -39,10 +32,8 @@ public class MessageProducer {
 
 	@Autowired
 	SuggestionRepository suggestionRepository;
-
 	@Autowired
 	CommentaryRepository commentaryRepository;
-
 	@Autowired
 	ParticipantRepository participantRepository;
 
@@ -50,11 +41,11 @@ public class MessageProducer {
 	public void sendNewSuggestion() {
 		Participant p = participantRandom();
 		String id = nextId();
-		
-		suggestionRepository.save(new Suggestion(id, "prueba", "prueba de sugerencia", 1, p));
-		
+
+		suggestionRepository.save(new Suggestion(id, "prueba", "prueba de sugerencia", 2, p));
+
 		// Identificador de la sugerencia
-		send(NEW_SUGGESTION, "{ \"suggestion\":\"" + id + "\"}");
+		send(Topics.NEW_SUGGESTION, "{ \"suggestion\":\"" + id + "\", \"name\":\"prueba\"}");
 	}
 
 	@Scheduled(cron = "*/15 * * * * *")
@@ -62,20 +53,20 @@ public class MessageProducer {
 		Suggestion s = suggestionRandom();
 		s.incrementarNumeroVotos(VoteType.POSITIVE);
 		suggestionRepository.save(s);
-		
+
 		// Identificador de la sugerencia
-		send(POSITIVE_SUGGESTION, "{ \"suggestion\":\"" + s.getIdentificador() + "\"}");
+		send(Topics.POSITIVE_SUGGESTION, "{ \"suggestion\":\"" + s.getIdentificador() + "\"}");
 
 		if (s.getVotosMinimos() == s.getVotosPositivos() && !s.isAlert()) {
 			s.setAlert(true);
 			suggestionRepository.save(s);
-			
-			send(ALERT_SUGGESTION, "{ \"suggestion\":\"" + s.getIdentificador() + "\"}");
+
+			send(Topics.ALERT_SUGGESTION, "{ \"suggestion\":\"" + s.getIdentificador() + "\"}");
 			Application.logger.info("Alerta a" + s.getIdentificador());
 		}
-		
+
 		Application.logger
-		.info("Voto a " + s.getIdentificador() + ", nº votos " + s.getVotosPositivos());
+				.info("Voto a " + s.getIdentificador() + ", nº votos " + s.getVotosPositivos());
 	}
 
 	@Scheduled(cron = "*/20 * * * * *")
@@ -90,32 +81,31 @@ public class MessageProducer {
 		// Identificador del comentario y de la sugerencia
 		String message = "{ \"comment\":\"" + id + "\", \"suggestion\":\"" + s.getIdentificador()
 				+ "\"}";
-		send(NEW_COMMENT, message);
-		
+		send(Topics.NEW_COMMENT, message);
+
 		Application.logger.info(
 				"Comentario en " + s.getIdentificador() + ", nº comentarios " + s.getNumComments());
 	}
-	//
-	// @Scheduled(cron = "*/5 * * * * *")
-	// public void sendPositiveComment() {
-	// contador++;
-	// // Identificador comentario y sugerencia
-	// String message = "{ \"comment\":\"C" + contador + "\",
-	// \"suggestion\":\"S" + contador
-	// + "\"}";
-	// send(POSITIVE_COMMENT, message);
-	// }
-	//
-	// @Scheduled(cron = "*/10 * * * * *")
-	// public void sendNegativeComment() {
-	// contador++;
-	// // Identificador comentario y sugerencia
-	// String message = "{ \"comment\":\"C" + contador + "\",
-	// \"suggestion\":\"S" + contador
-	// + "\"}";
-	// send(NEGATIVE_COMMENT, message);
-	// }
-	//
+
+	@Scheduled(cron = "*/23 * * * * *")
+	public void sendPositiveComment() {
+		Commentary c = commentRandom();
+
+		// Identificador del comentario y de la sugerencia
+		String message = "{ \"comment\":\"" + c.getIdentificador() + "\", \"suggestion\":\""
+				+ c.getSuggestion().getIdentificador() + "\"}";
+		send(Topics.POSITIVE_COMMENT, message);
+	}
+
+	@Scheduled(cron = "*/26 * * * * *")
+	public void sendNegativeComment() {
+		Commentary c = commentRandom();
+
+		// Identificador del comentario y de la sugerencia
+		String message = "{ \"comment\":\"" + c.getIdentificador() + "\", \"suggestion\":\""
+				+ c.getSuggestion().getIdentificador() + "\"}";
+		send(Topics.NEGATIVE_COMMENT, message);
+	}
 
 	private void send(String topic, String message) {
 		ListenableFuture<SendResult<String, String>> future = template.send(topic, message);
@@ -144,8 +134,13 @@ public class MessageProducer {
 	}
 
 	private Participant participantRandom() {
-		int s = randomInt(0, participantRepository.findAll().size() - 1);
-		return participantRepository.findAll().get(s);
+		int p = randomInt(0, participantRepository.findAll().size() - 1);
+		return participantRepository.findAll().get(p);
+	}
+
+	private Commentary commentRandom() {
+		int c = randomInt(0, participantRepository.findAll().size() - 1);
+		return commentaryRepository.findAll().get(c);
 	}
 
 	private int randomInt(int min, int max) {
