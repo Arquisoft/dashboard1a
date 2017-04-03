@@ -7,20 +7,19 @@ import cucumber.api.java.en.When;
 
 public class LoginPoliticoSteps {
 	
-	@Before
-	public void setUp(){
-		
-	}
-	
-	@When("^Me registro con email (\\s+) y con una password (\\s+) $")
-	public void me_logeo_como_politico(String nombre,String password){
-		
-	}
-	
-	@Then("Compruebo que estoy en la ventana de politico")
-	public void compruebo_pagina_politico(){
-		
-	}
-	
+//	@Before
+//	public void setUp(){
+//		
+//	}
+//	
+//	@When("^Me registro con email (\\s+) y con una password (\\s+) $")
+//	public void me_logeo_como_politico(String nombre,String password){
+//		
+//	}
+//	
+//	@Then("Compruebo que estoy en la ventana de politico")
+//	public void compruebo_pagina_politico(){
+//		
+//	}	
 
 }
