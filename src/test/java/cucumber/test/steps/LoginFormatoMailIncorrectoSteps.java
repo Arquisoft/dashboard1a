@@ -14,7 +14,8 @@ import utils.ThreadUtil;
 
 public class LoginFormatoMailIncorrectoSteps {
 
-	private WebDriver driver = DriverGenerator.generarDriverFirefoxPortable();
+	//private WebDriver driver = DriverGenerator.generarDriverFirefoxPortable();
+	private WebDriver driver = DriverGenerator.generarDriverFirefox();
 	
 	@Cuando("^el usuario se encuentra en la pagina de login$")
 	public void el_usuario_se_encuentra_en_la_pagina_de_login() {

@@ -28,9 +28,9 @@ public class SeleniumTest {
 	// NAVEGADOR INTERNO
 	// private static WebDriver driver = new HtmlUnitDriver();
 	// FIREFOX
-	// private static WebDriver driver = new FirefoxDriver();
+	 private static WebDriver driver = new FirefoxDriver();
 
-	private static WebDriver driver = getDriver();
+	//private static WebDriver driver = getDriver();
 	private static String URLInicio = "http://localhost:8090/";
 
 	/*
@@ -39,19 +39,19 @@ public class SeleniumTest {
 	 * puede definir un buscador por defecto en preferences web Browser
 	 * 
 	 */
-	public static WebDriver getDriver() {
-		File pathToBinary = new File("D:\\firefox\\FirefoxPortable.exe");// poner
-																			// ruta
-																			// al
-																			// firefox
-																			// portable/al
-		// firefox de nuestro ordenador
-
-		FirefoxBinary ffBinary = new FirefoxBinary(pathToBinary);
-		FirefoxProfile firefoxProfile = new FirefoxProfile();
-
-		return driver = new FirefoxDriver(ffBinary, firefoxProfile);
-	}
+//	public static WebDriver getDriver() {
+//		File pathToBinary = new File("D:\\firefox\\FirefoxPortable.exe");// poner
+//																			// ruta
+//																			// al
+//																			// firefox
+//																			// portable/al
+//		// firefox de nuestro ordenador
+//
+//		FirefoxBinary ffBinary = new FirefoxBinary(pathToBinary);
+//		FirefoxProfile firefoxProfile = new FirefoxProfile();
+//
+//		return driver = new FirefoxDriver(ffBinary, firefoxProfile);
+//	}
 
 	@Before
 	public void setUp() {

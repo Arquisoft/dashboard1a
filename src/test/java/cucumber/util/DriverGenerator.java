@@ -20,4 +20,10 @@ public class DriverGenerator {
 		 return  new FirefoxDriver(ffBinary, firefoxProfile);
 	}
 
+	public static WebDriver generarDriverFirefox() {
+		return new FirefoxDriver();
+	}
+	
+	
+
 }
