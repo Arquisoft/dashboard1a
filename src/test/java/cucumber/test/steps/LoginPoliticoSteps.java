@@ -1,25 +1,39 @@
 package cucumber.test.steps;
 
-import org.junit.Before;
+import static org.junit.Assert.assertTrue;
 
-import cucumber.api.java.en.Then;
-import cucumber.api.java.en.When;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+
+import cucumber.api.java.es.Cuando;
+import cucumber.api.java.es.Entonces;
+import cucumber.util.DriverGenerator;
+import selenium.page_objects.PO_LoginForm;
+import utils.ThreadUtil;
 
 public class LoginPoliticoSteps {
-	
-//	@Before
-//	public void setUp(){
-//		
-//	}
-//	
-//	@When("^Me registro con email (\\s+) y con una password (\\s+) $")
-//	public void me_logeo_como_politico(String nombre,String password){
-//		
-//	}
-//	
-//	@Then("Compruebo que estoy en la ventana de politico")
-//	public void compruebo_pagina_politico(){
-//		
-//	}	
+
+	private WebDriver driver = DriverGenerator.generarDriverFirefoxPortable();
+
+	@Cuando("^el administrador se encuentra en la pagina de login$")
+	public void el_administrador_se_encuentra_en_la_pagina_de_login() {
+		driver.navigate().to("http://localhost:8090/");
+	}
+
+	@Entonces("^inserta su mail \"(.+)\" y su password \"(.+)\"$")
+	public void inserta_su_mail_y_su_password(String name, String password) {
+		new PO_LoginForm().completeForm(driver, name, password);
+
+	}
+
+	@Entonces("^se logea de manera correcta$")
+	public void se_logea_de_manera_correcta() {
+		assertTrue("Titulo no se corresponde", driver.getTitle().equals("Dashboard"));
+		assertTrue("Subtitulo no tiene el mismo texto",
+				driver.findElement(By.cssSelector("h2.sub-header")).getText().equals("Suggestions"));
+
+		ThreadUtil.wait(500);
+		driver.quit();
+	}
 
 }

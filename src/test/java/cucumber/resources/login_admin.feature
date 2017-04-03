@@ -1,6 +1,10 @@
-Feature: El administrador debe de iniciar sesion
+# language: es
 
-Scenario: Iniciar sesion administrador
-When Me registro con email maria@gmail.com y con una password 123456
-Then Compruebo que estoy en la ventana de administrador
-
+ Característica: El administrador debe de hacer login en la aplicacion
+ 
+ 	Escenario: Iniciar sesion administrador
+ 		
+ 		Cuando el administrador se encuentra en la pagina de login
+ 		Entonces inserta su mail "maria@gmail.com" y su password "123456"
+ 		Entonces se logea de manera correcta
+ 	
