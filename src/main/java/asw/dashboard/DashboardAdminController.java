@@ -32,6 +32,12 @@ public class DashboardAdminController {
 		return "dashboardSuggestions";
 	}
 	
+	// Muestra las graficas
+	@RequestMapping("/dashboardGraphics")
+	public String showGraphics() {
+		return "dashboardGrafica";
+	}
+	
 	// Pagina de comentarios por sugerencia en el dashboard
 	@RequestMapping(path = "/{id}", method=RequestMethod.GET)
 	public String showComments(@PathVariable("id") String id, Model model) {

@@ -36,6 +36,7 @@ public class Suggestion {
 	private Set<VoteSuggestion> votesSuggestion = new HashSet<VoteSuggestion>();
 
 	private int numComments = 0;
+	private boolean aprobada;
 	private boolean alert;
 
 	Suggestion() {
@@ -133,6 +134,14 @@ public class Suggestion {
 
 	public void setNumComments(int numComments) {
 		this.numComments = numComments;
+	}
+
+	public void setAprobada(boolean aprobada){
+		this.aprobada = aprobada;
+	}
+	
+	public boolean isAprobada() {
+		return aprobada;
 	}
 
 	public boolean isAlert() {
