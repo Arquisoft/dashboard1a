@@ -9,68 +9,87 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter.SseEventBuilder;
 
 import asw.Application;
 import asw.dbManagement.repository.SuggestionRepository;
-import asw.streamKafka.productor.MessageProducer;
+import asw.streamKafka.productor.Topics;
 
 @Controller
 public class DashboardAdminController {
 	@Autowired
 	private SuggestionRepository suggestionRepository;
-	
 	private List<SseEmitter> sseEmitters = Collections.synchronizedList(new ArrayList<>());
-
+	
+	// Inicio del dashboardAdmin que muestra las sugerencias
 	@RequestMapping("/dashboardAdmin")
-	public String landing(Model model) {
-		// Muestra todas las sugerencias de la base de datos
+	public String showSuggestions(Model model) {
 		model.addAttribute("allSuggestions", suggestionRepository.findAll());
-		return "dashboardAdmin";
+		return "dashboardSuggestions";
 	}
 	
-	@RequestMapping("/dashboardGrafica")
-	public String menubar(Model model) {
-		return "dashboardGrafica";
+	// Pagina de comentarios por sugerencia en el dashboard
+	@RequestMapping(path = "/{id}", method=RequestMethod.GET)
+	public String showComments(@PathVariable("id") String id, Model model) {
+		model.addAttribute("suggestionId", id);
+		model.addAttribute("allComments", suggestionRepository.findByIdentificador(id).getCommentaries());
+		return "dashboardComments";
 	}
 
+	/************** EVENTOS *************/
+	
 	@RequestMapping(value= "/newSuggestion")
-	@KafkaListener(topics = MessageProducer.NEW_SUGGESTION)
+	@KafkaListener(topics = Topics.NEW_SUGGESTION)
 	public void newSuggestion(String data) {
 		SseEventBuilder event = SseEmitter.event().name("newSuggestion").data(data);
 		sendData(event);
 	}
 	
 	@RequestMapping(value = "/alertSuggestion")
-	@KafkaListener(topics = MessageProducer.ALERT_SUGGESTION)
+	@KafkaListener(topics = Topics.ALERT_SUGGESTION)
 	public void alertSuggestion(String data) {
 		SseEventBuilder event = SseEmitter.event().name("alertSuggestion").data(data);
 		sendData(event);
 	}
 
 	@RequestMapping(value = "/voteSuggestion")
-	@KafkaListener(topics = MessageProducer.POSITIVE_SUGGESTION)
+	@KafkaListener(topics = Topics.POSITIVE_SUGGESTION)
 	public void voteSuggestion(String data) {
 		SseEventBuilder event = SseEmitter.event().name("voteSuggestion").data(data);
 		sendData(event);
 	}
 	
 	@RequestMapping(value = "/newComment")
-	@KafkaListener(topics = MessageProducer.NEW_COMMENT)
+	@KafkaListener(topics = Topics.NEW_COMMENT)
 	public void newComment(String data) {
 		SseEventBuilder event = SseEmitter.event().name("newComment").data(data);
 		sendData(event);
 	}
 	
-	// Quedaria otra pantalla para los comentarios por sugerencia
+	@RequestMapping(value = "/positiveComment")
+	@KafkaListener(topics = Topics.POSITIVE_COMMENT)
+	public void positiveComment(String data) {
+		SseEventBuilder event = SseEmitter.event().name("positiveComment").data(data);
+		sendData(event);
+	}
+	
+	@RequestMapping(value = "/negativeComment")
+	@KafkaListener(topics = Topics.NEGATIVE_COMMENT)
+	public void negativeComment(String data) {
+		SseEventBuilder event = SseEmitter.event().name("negativeComment").data(data);
+		sendData(event);
+	}
 	
 	/************** METODOS AUXILIARES *************/
 
 	@RequestMapping("/dashboardAdmin/updates")
 	SseEmitter updateHTML() {
-		SseEmitter sseEmitter = new SseEmitter();
+		SseEmitter sseEmitter = new SseEmitter(Long.MAX_VALUE);
+		
 		synchronized (this.sseEmitters) {
 			this.sseEmitters.add(sseEmitter);
 			sseEmitter.onCompletion(() -> {
@@ -88,7 +107,7 @@ public class DashboardAdminController {
 				try {
 					sseEmitter.send(event);
 				} catch (IOException e) {
-					Application.logger.error("Se ha cerrado el navegador");
+					Application.logger.error("Se ha cerrado el stream actual");
 				}
 			}
 		}
