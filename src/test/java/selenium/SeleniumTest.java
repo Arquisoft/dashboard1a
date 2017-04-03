@@ -17,6 +17,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxBinary;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxProfile;
+import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 
 import selenium.page_objects.PO_LoginForm;
 import utils.ThreadUtil;
@@ -25,10 +26,10 @@ import utils.ThreadUtil;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class SeleniumTest {
 
-	// NAVEGADOR INTERNO
-	// private static WebDriver driver = new HtmlUnitDriver();
+	// NAVEGADOR HTMLUnit
+	 private static WebDriver driver = new HtmlUnitDriver();
 	// FIREFOX
-	 private static WebDriver driver = new FirefoxDriver();
+	// private static WebDriver driver = new FirefoxDriver();
 
 	//private static WebDriver driver = getDriver();
 	private static String URLInicio = "http://localhost:8090/";

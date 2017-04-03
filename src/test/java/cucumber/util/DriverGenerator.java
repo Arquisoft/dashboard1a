@@ -6,6 +6,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxBinary;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxProfile;
+import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 
 public class DriverGenerator {
 
@@ -22,6 +23,10 @@ public class DriverGenerator {
 
 	public static WebDriver generarDriverFirefox() {
 		return new FirefoxDriver();
+	}
+
+	public static WebDriver generarDriverHTML() {
+		return new HtmlUnitDriver();
 	}
 	
 	
