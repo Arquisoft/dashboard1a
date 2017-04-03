@@ -14,8 +14,8 @@ import utils.ThreadUtil;
 public class LoginPoliticoSteps {
 
 	//private WebDriver driver = DriverGenerator.generarDriverFirefoxPortable();
-	//private WebDriver driver = DriverGenerator.generarDriverFirefox();
-	private WebDriver driver = DriverGenerator.generarDriverHTML();
+	private WebDriver driver = DriverGenerator.generarDriverFirefox();
+	//private WebDriver driver = DriverGenerator.generarDriverHTML();
 	
 	@Cuando("^el administrador se encuentra en la pagina de login$")
 	public void el_administrador_se_encuentra_en_la_pagina_de_login() {
