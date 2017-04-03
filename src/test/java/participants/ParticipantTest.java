@@ -72,6 +72,20 @@ public class ParticipantTest {
 		assertTrue(participant1.equals(participant3));
 		assertTrue(participant1.equals(participant1));
 		assertFalse(participant1.equals(participant4));
+		
+		participant1.setAdmin(true);
+		participant1.setPolitician(true);
+		
+		assertTrue(participant1.isAdmin());
+		assertTrue(participant1.isPolitician());
+		
+		participant1.setAdmin(false);
+		participant1.setPolitician(false);
+		
+		assertFalse(participant1.isAdmin());
+		assertFalse(participant1.isPolitician());
+		
+		
 	}
 
 	@Test
