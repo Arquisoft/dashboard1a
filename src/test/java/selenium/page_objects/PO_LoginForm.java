@@ -1,9 +1,12 @@
 package selenium.page_objects;
 
+import java.util.List;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+import utils.SeleniumUtils;
 import utils.ThreadUtil;
 
 public class PO_LoginForm {
@@ -16,23 +19,28 @@ public class PO_LoginForm {
 	
 	public void completeForm(WebDriver driver, String loginValue,String passwordValue){
 		//(1) encontramos el input para el correo y lo rellenamos
-		WebElement login = driver.findElement(By.id("inputEmail"));
 		
-		login.click();
-		login.clear();
-		login.sendKeys(loginValue);
+		List<WebElement> login = SeleniumUtils.EsperaCargaPagina(driver, "id","inputEmail" , 10);
+		
+		
+		login.get(0).click();
+		login.get(0).clear();
+		login.get(0).sendKeys(loginValue);
 		
 		ThreadUtil.wait(500);
 		//(2) encontramos el input para la password y lo rellenamos
-		WebElement password = driver.findElement(By.id("inputPassword"));
+		List<WebElement> password =  SeleniumUtils.EsperaCargaPagina(driver, "id","inputPassword" , 10);
 		
-		password.click();
-		password.clear();
-		password.sendKeys(passwordValue);
+		
+		password.get(0).click();
+		password.get(0).clear();
+		password.get(0).sendKeys(passwordValue);
 		
 		ThreadUtil.wait(500);
 		//(3) encontramos el boton de login y clicamos en el
-		driver.findElement(By.id("boton_login")).click();
+		List<WebElement> boton = SeleniumUtils.EsperaCargaPagina(driver, "id", "boton_login", 10);
+		
+		boton.get(0).click();
 		
 		ThreadUtil.wait(700);
 		
