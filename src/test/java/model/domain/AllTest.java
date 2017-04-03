@@ -7,8 +7,7 @@ import org.junit.runners.Suite.SuiteClasses;
 @RunWith(Suite.class)
 @SuiteClasses({ 
 	VoteSuggestionTest.class,
-	VoteCommentaryTest.class,
-	ParticipantTest.class
+	VoteCommentaryTest.class
 })
 public class AllTest {
 
