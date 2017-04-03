@@ -42,31 +42,37 @@ public class MessageProducer {
 		Participant p = participantRandom();
 		String id = nextId();
 
-		suggestionRepository.save(new Suggestion(id, "prueba", "prueba de sugerencia", 2, p));
+		if (p != null) {
+			suggestionRepository.save(new Suggestion(id, "prueba", "prueba de sugerencia", 2, p));
 
-		// Identificador de la sugerencia
-		send(Topics.NEW_SUGGESTION, "{ \"suggestion\":\"" + id + "\", \"name\":\"prueba\"}");
+			// Identificador de la sugerencia
+			send(Topics.NEW_SUGGESTION, "{ \"suggestion\":\"" + id + "\", \"name\":\"prueba\"}");
+		}
 	}
 
 	@Scheduled(cron = "*/15 * * * * *")
 	public void sendPositiveSuggestion() {
 		Suggestion s = suggestionRandom();
-		s.incrementarNumeroVotos(VoteType.POSITIVE);
-		suggestionRepository.save(s);
 
-		// Identificador de la sugerencia
-		send(Topics.POSITIVE_SUGGESTION, "{ \"suggestion\":\"" + s.getIdentificador() + "\"}");
-
-		if (s.getVotosMinimos() == s.getVotosPositivos() && !s.isAlert()) {
-			s.setAlert(true);
+		if (s != null) {
+			s.incrementarNumeroVotos(VoteType.POSITIVE);
 			suggestionRepository.save(s);
 
-			send(Topics.ALERT_SUGGESTION, "{ \"suggestion\":\"" + s.getIdentificador() + "\"}");
-			Application.logger.info("Alerta a" + s.getIdentificador());
-		}
+			// Identificador de la sugerencia
+			send(Topics.POSITIVE_SUGGESTION, "{ \"suggestion\":\"" + s.getIdentificador() + "\"}");
 
-		Application.logger
-				.info("Voto a " + s.getIdentificador() + ", nº votos " + s.getVotosPositivos());
+			if (s.getVotosPositivos() == s.getVotosMinimos() && !s.isAlert()) {
+				s.setAprobada(true);
+				s.setAlert(true);
+				suggestionRepository.save(s);
+
+				send(Topics.ALERT_SUGGESTION, "{ \"suggestion\":\"" + s.getIdentificador() + "\"}");
+				Application.logger.info("Alerta a" + s.getIdentificador());
+			}
+
+			Application.logger
+					.info("Voto a " + s.getIdentificador() + ", nº votos " + s.getVotosPositivos());
+		}
 	}
 
 	@Scheduled(cron = "*/20 * * * * *")
@@ -75,36 +81,42 @@ public class MessageProducer {
 		Participant p = participantRandom();
 		String id = nextId();
 
-		commentaryRepository.save(new Commentary(id, "prueba", p, s));
-		suggestionRepository.save(s);
+		if (s != null && p != null) {
+			commentaryRepository.save(new Commentary(id, "prueba", p, s));
+			suggestionRepository.save(s);
 
-		// Identificador del comentario y de la sugerencia
-		String message = "{ \"comment\":\"" + id + "\", \"suggestion\":\"" + s.getIdentificador()
-				+ "\"}";
-		send(Topics.NEW_COMMENT, message);
+			// Identificador del comentario y de la sugerencia
+			String message = "{ \"comment\":\"" + id + "\", \"suggestion\":\""
+					+ s.getIdentificador() + "\"}";
+			send(Topics.NEW_COMMENT, message);
 
-		Application.logger.info(
-				"Comentario en " + s.getIdentificador() + ", nº comentarios " + s.getNumComments());
+			Application.logger.info("Comentario en " + s.getIdentificador() + ", nº comentarios "
+					+ s.getNumComments());
+		}
 	}
 
 	@Scheduled(cron = "*/23 * * * * *")
 	public void sendPositiveComment() {
 		Commentary c = commentRandom();
 
-		// Identificador del comentario y de la sugerencia
-		String message = "{ \"comment\":\"" + c.getIdentificador() + "\", \"suggestion\":\""
-				+ c.getSuggestion().getIdentificador() + "\"}";
-		send(Topics.POSITIVE_COMMENT, message);
+		if (c != null) {
+			// Identificador del comentario y de la sugerencia
+			String message = "{ \"comment\":\"" + c.getIdentificador() + "\", \"suggestion\":\""
+					+ c.getSuggestion().getIdentificador() + "\"}";
+			send(Topics.POSITIVE_COMMENT, message);
+		}
 	}
 
 	@Scheduled(cron = "*/26 * * * * *")
 	public void sendNegativeComment() {
 		Commentary c = commentRandom();
 
-		// Identificador del comentario y de la sugerencia
-		String message = "{ \"comment\":\"" + c.getIdentificador() + "\", \"suggestion\":\""
-				+ c.getSuggestion().getIdentificador() + "\"}";
-		send(Topics.NEGATIVE_COMMENT, message);
+		if (c != null) {
+			// Identificador del comentario y de la sugerencia
+			String message = "{ \"comment\":\"" + c.getIdentificador() + "\", \"suggestion\":\""
+					+ c.getSuggestion().getIdentificador() + "\"}";
+			send(Topics.NEGATIVE_COMMENT, message);
+		}
 	}
 
 	private void send(String topic, String message) {
@@ -129,18 +141,33 @@ public class MessageProducer {
 	}
 
 	private Suggestion suggestionRandom() {
-		int s = randomInt(0, suggestionRepository.findAll().size() - 1);
-		return suggestionRepository.findAll().get(s);
+		int size = suggestionRepository.findAll().size();
+		int s;
+		if (size > 0) {
+			s = randomInt(0, size - 1);
+			return suggestionRepository.findAll().get(s);
+		}
+		return null;
 	}
 
 	private Participant participantRandom() {
-		int p = randomInt(0, participantRepository.findAll().size() - 1);
-		return participantRepository.findAll().get(p);
+		int size = participantRepository.findAll().size();
+		int s;
+		if (size > 0) {
+			s = randomInt(0, size - 1);
+			return participantRepository.findAll().get(s);
+		}
+		return null;
 	}
 
 	private Commentary commentRandom() {
-		int c = randomInt(0, participantRepository.findAll().size() - 1);
-		return commentaryRepository.findAll().get(c);
+		int size = commentaryRepository.findAll().size();
+		int s;
+		if (size > 0) {
+			s = randomInt(0, size - 1);
+			return commentaryRepository.findAll().get(s);
+		}
+		return null;
 	}
 
 	private int randomInt(int min, int max) {

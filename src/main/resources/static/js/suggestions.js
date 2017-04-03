@@ -12,30 +12,30 @@ eventSource.addEventListener("newSuggestion", function(event) {
 eventSource.addEventListener("alertSuggestion", function(event) {
 	var obj = JSON.parse(event.data);
 	
-	$('th').filter(function() {
+	$('a').filter(function() {
 		return $(this).text() === obj.suggestion;
-	}).closest('tr').css("color", "red");
+	}).css("color", "red");
 	alert("La sugerencia " + obj.suggestion + " ha sido aprobada");
 });
     	
 eventSource.addEventListener("voteSuggestion", function(event) {
 	var obj = JSON.parse(event.data);
-  	var value = parseInt($('th').filter(function() {
+  	var value = parseInt($('a').filter(function() {
 					return $(this).text() === obj.suggestion;
 				}).closest('tr').children('td').eq(1).text());
 
-	$('th').filter(function() {
+	$('a').filter(function() {
 		return $(this).text() === obj.suggestion;
 	}).closest('tr').children('td').eq(1).html(value+1);
 });
 
 eventSource.addEventListener("newComment", function(event) {
 	var obj = JSON.parse(event.data);
-  	var value = parseInt($('th').filter(function() {
+  	var value = parseInt($('a').filter(function() {
 					return $(this).text() === obj.suggestion;
 				}).closest('tr').children('td').eq(2).text());
 
-	$('th').filter(function() {
+	$('a').filter(function() {
 		return $(this).text() === obj.suggestion;
 	}).closest('tr').children('td').eq(2).html(value+1);
 });
