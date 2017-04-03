@@ -20,6 +20,7 @@ public class LoginPoliticoSteps {
 	@Cuando("^el administrador se encuentra en la pagina de login$")
 	public void el_administrador_se_encuentra_en_la_pagina_de_login() {
 		driver.navigate().to("http://localhost:8090/");
+		assertTrue("titulo coincide",driver.getTitle().equals("Login"));
 	}
 
 	@Entonces("^inserta su mail \"(.+)\" y su password \"(.+)\"$")
