@@ -141,7 +141,6 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.12</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
@@ -215,6 +214,7 @@
 				<configuration>
 					<excludes>
 						<exclude>**/Selenium*</exclude>
+						<exclude>**/Cucmber*</exclude>
 					</excludes>
 					<includes>
 						<include>**/*Test.java</include>
@@ -234,6 +234,7 @@
 						<configuration>
 							<includes>
 								<include>**/Selenium*</include>
+								<include>**/Cucmber*</include>
 							</includes>
 						</configuration>
 					</execution>
