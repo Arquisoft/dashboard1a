@@ -2,7 +2,6 @@ package selenium;
 
 import static org.junit.Assert.assertTrue;
 
-import java.io.File;
 import java.util.concurrent.TimeUnit;
 
 import org.junit.After;
@@ -10,18 +9,26 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.firefox.FirefoxBinary;
-import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
+import org.springframework.boot.test.IntegrationTest;
+import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
 
+import asw.Application;
 import selenium.page_objects.PO_LoginForm;
 import utils.ThreadUtil;
 
+@SuppressWarnings("deprecation")
+@RunWith(SpringJUnit4ClassRunner.class)
+@SpringApplicationConfiguration(classes = Application.class)
+@WebAppConfiguration
+@IntegrationTest({ "server.port=0" })
 //@Clean posibles modificaciones en los id al tener prime faces
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class SeleniumTest {

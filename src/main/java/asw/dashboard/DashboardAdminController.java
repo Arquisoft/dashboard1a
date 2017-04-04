@@ -24,37 +24,38 @@ public class DashboardAdminController {
 	@Autowired
 	private SuggestionRepository suggestionRepository;
 	private List<SseEmitter> sseEmitters = Collections.synchronizedList(new ArrayList<>());
-	
+
 	// Inicio del dashboardAdmin que muestra las sugerencias
 	@RequestMapping("/dashboardAdmin")
 	public String showSuggestions(Model model) {
 		model.addAttribute("allSuggestions", suggestionRepository.findAll());
 		return "dashboardSuggestions";
 	}
-	
+
 	// Muestra las graficas
 	@RequestMapping("/dashboardGraphics")
 	public String showGraphics() {
 		return "dashboardGrafica";
 	}
-	
+
 	// Pagina de comentarios por sugerencia en el dashboard
-	@RequestMapping(path = "/{id}", method=RequestMethod.GET)
+	@RequestMapping(path = "/{id}", method = RequestMethod.GET)
 	public String showComments(@PathVariable("id") String id, Model model) {
 		model.addAttribute("suggestionId", id);
-		model.addAttribute("allComments", suggestionRepository.findByIdentificador(id).getCommentaries());
+		model.addAttribute("allComments",
+				suggestionRepository.findByIdentificador(id).getCommentaries());
 		return "dashboardComments";
 	}
 
 	/************** EVENTOS *************/
-	
-	@RequestMapping(value= "/newSuggestion")
+
+	@RequestMapping(value = "/newSuggestion")
 	@KafkaListener(topics = Topics.NEW_SUGGESTION)
 	public void newSuggestion(String data) {
 		SseEventBuilder event = SseEmitter.event().name("newSuggestion").data(data);
 		sendData(event);
 	}
-	
+
 	@RequestMapping(value = "/alertSuggestion")
 	@KafkaListener(topics = Topics.ALERT_SUGGESTION)
 	public void alertSuggestion(String data) {
@@ -68,34 +69,34 @@ public class DashboardAdminController {
 		SseEventBuilder event = SseEmitter.event().name("voteSuggestion").data(data);
 		sendData(event);
 	}
-	
+
 	@RequestMapping(value = "/newComment")
 	@KafkaListener(topics = Topics.NEW_COMMENT)
 	public void newComment(String data) {
 		SseEventBuilder event = SseEmitter.event().name("newComment").data(data);
 		sendData(event);
 	}
-	
+
 	@RequestMapping(value = "/positiveComment")
 	@KafkaListener(topics = Topics.POSITIVE_COMMENT)
 	public void positiveComment(String data) {
 		SseEventBuilder event = SseEmitter.event().name("positiveComment").data(data);
 		sendData(event);
 	}
-	
+
 	@RequestMapping(value = "/negativeComment")
 	@KafkaListener(topics = Topics.NEGATIVE_COMMENT)
 	public void negativeComment(String data) {
 		SseEventBuilder event = SseEmitter.event().name("negativeComment").data(data);
 		sendData(event);
 	}
-	
+
 	/************** METODOS AUXILIARES *************/
 
 	@RequestMapping("/dashboardAdmin/updates")
 	SseEmitter updateHTML() {
 		SseEmitter sseEmitter = new SseEmitter(Long.MAX_VALUE);
-		
+
 		synchronized (this.sseEmitters) {
 			this.sseEmitters.add(sseEmitter);
 			sseEmitter.onCompletion(() -> {
@@ -106,13 +107,17 @@ public class DashboardAdminController {
 		}
 		return sseEmitter;
 	}
-	
+
 	void sendData(SseEventBuilder event) {
 		synchronized (this.sseEmitters) {
 			for (SseEmitter sseEmitter : this.sseEmitters) {
 				try {
 					sseEmitter.send(event);
 				} catch (IOException e) {
+					synchronized (this.sseEmitters) {
+						sseEmitter = new SseEmitter(Long.MAX_VALUE);
+						this.sseEmitters.add(sseEmitter);
+					}
 					Application.logger.error("Se ha cerrado el stream actual");
 				}
 			}
