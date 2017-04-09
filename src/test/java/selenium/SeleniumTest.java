@@ -15,10 +15,9 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
-import org.springframework.boot.test.IntegrationTest;
 import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.boot.test.WebIntegrationTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
 
 import asw.Application;
 import selenium.page_objects.PO_LoginForm;
@@ -27,8 +26,7 @@ import utils.ThreadUtil;
 @SuppressWarnings("deprecation")
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = Application.class)
-@WebAppConfiguration
-@IntegrationTest({ "server.port=0" })
+@WebIntegrationTest(value = "server.port=8090")
 //@Clean posibles modificaciones en los id al tener prime faces
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class SeleniumTest {
@@ -48,11 +46,8 @@ public class SeleniumTest {
 	 * 
 	 */
 //	public static WebDriver getDriver() {
-//		File pathToBinary = new File("D:\\firefox\\FirefoxPortable.exe");// poner
-//																			// ruta
-//																			// al
-//																			// firefox
-//																			// portable/al
+//		// Ruta al firefox portable
+//		File pathToBinary = new File("D:\\firefox\\FirefoxPortable.exe");
 //		// firefox de nuestro ordenador
 //
 //		FirefoxBinary ffBinary = new FirefoxBinary(pathToBinary);
@@ -83,39 +78,11 @@ public class SeleniumTest {
 	 * ========= PRUEBAS =========
 	 */
 
-	// @Clean : se confundió al politico con el administrador del sistema
-//	@Test
-//	public void t1_testLoginPoliticoCorrecto() {
-//
-//		// (1) comrpobamos que estamos en el login
-//		driver.navigate().to(URLInicio);
-//
-//		assertTrue("Titulo de pagina no coincide", driver.getTitle().equals("Login"));
-//
-//		WebElement texto = driver.findElement(By.id("inputEmail"));
-//		assertTrue("placeholder no coincide", texto.getAttribute("placeholder").equals("Email address"));
-//
-//		texto = driver.findElement(By.id("inputPassword"));
-//		assertTrue("placeholder no coincide", texto.getAttribute("placeholder").equals("Password"));
-//
-//		texto = driver.findElement(By.id("boton_login"));
-//		assertTrue("texto del boton no coincide", texto.getText().equals("Sign in"));
-//
-//		// (2) rellenamos el formulario correctamente
-//
-//		new PO_LoginForm().completeForm(driver, "jose@gmail.com", "123456");
-//		// (3) esperamos a que cargue la página principal del politico
-//
-//		// (4) comprobamos que estamos en la página principal de los politicos
-//
-//		ThreadUtil.wait(2000);
-//	}
-
 	@Test
-	public void t2_testLoginIncorrecto() {
+	public void t1_testLoginIncorrecto() {
 		// (1) Comprobamos que estamos en la página de login
 
-		//assertTrue("Titulo de pagina no coincide", driver.getTitle().equals("Login"));
+		assertTrue("Titulo de pagina no coincide", driver.getTitle().equals("Login"));
 
 		WebElement texto = driver.findElement(By.id("inputEmail"));
 		assertTrue("placeholder no coincide", texto.getAttribute("placeholder").equals("Email address"));
@@ -138,42 +105,7 @@ public class SeleniumTest {
 	}
 
 	@Test
-	public void t3_testLoginFormatoEmailIncorrecto() {
-		// (1) Comprobamos que estamos en la página de login
-
-		assertTrue("Titulo de pagina no coincide", driver.getTitle().equals("Login"));
-
-		WebElement texto = driver.findElement(By.id("inputEmail"));
-		assertTrue("placeholder no coincide", texto.getAttribute("placeholder").equals("Email address"));
-
-		texto = driver.findElement(By.id("inputPassword"));
-		assertTrue("placeholder no coincide", texto.getAttribute("placeholder").equals("Password"));
-
-		texto = driver.findElement(By.id("boton_login"));
-		assertTrue("texto del boton no coincide", texto.getText().equals("Sign in"));
-
-		// (2) rellenamos el formulario con un email no valido
-		new PO_LoginForm().completeForm(driver, "noexistohotmailcom", "asdfghjl");
-
-		// (3) comprobamos que seguimos en la ventana de login
-
-		assertTrue("Titulo de pagina no coincide", driver.getTitle().equals("Login"));
-
-		texto = driver.findElement(By.id("inputEmail"));
-		assertTrue("placeholder no coincide", texto.getAttribute("placeholder").equals("Email address"));
-
-		texto = driver.findElement(By.id("inputPassword"));
-		assertTrue("placeholder no coincide", texto.getAttribute("placeholder").equals("Password"));
-
-		texto = driver.findElement(By.id("boton_login"));
-		assertTrue("texto del boton no coincide", texto.getText().equals("Sign in"));
-
-		ThreadUtil.wait(2000);
-
-	}
-
-	@Test
-	public void t4_testLoginAdmin() {
+	public void t3_testLoginAdmin() {
 		// (1) Comprobamos que estamos en la página de login
 		assertTrue("Titulo de pagina no coincide", driver.getTitle().equals("Login"));
 
@@ -196,7 +128,7 @@ public class SeleniumTest {
 	}
 	
 	@Test
-	public void t5_testEntrarEnTarea(){
+	public void t4_testEntrarEnTarea(){
 		// (1) realizamos un login
 		assertTrue("Titulo de pagina no coincide", driver.getTitle().equals("Login"));
 

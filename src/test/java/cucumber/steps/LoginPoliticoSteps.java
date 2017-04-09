@@ -1,26 +1,32 @@
-package cucumber.test.steps;
+package cucumber.steps;
 
 import static org.junit.Assert.assertTrue;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.htmlunit.HtmlUnitDriver;
+import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.boot.test.WebIntegrationTest;
 
+import asw.Application;
 import cucumber.api.java.es.Cuando;
 import cucumber.api.java.es.Entonces;
-import cucumber.util.DriverGenerator;
 import selenium.page_objects.PO_LoginForm;
 import utils.ThreadUtil;
 
+@SuppressWarnings("deprecation")
+@SpringApplicationConfiguration(classes = Application.class)
+@WebIntegrationTest(value = "server.port=8090")
 public class LoginPoliticoSteps {
 
-	//private WebDriver driver = DriverGenerator.generarDriverFirefoxPortable();
-	//private WebDriver driver = DriverGenerator.generarDriverFirefox();
-	private WebDriver driver = DriverGenerator.generarDriverHTML();
+	private WebDriver driver = null;
+	private String url = "http://localhost:8090/";
 	
 	@Cuando("^el administrador se encuentra en la pagina de login$")
 	public void el_administrador_se_encuentra_en_la_pagina_de_login() {
-		driver.navigate().to("http://localhost:8090/");
-		assertTrue("titulo coincide",driver.getTitle().equals("Login"));
+		driver = new HtmlUnitDriver();
+		driver.get(url);
+		assertTrue("titulo no coincide", driver.getTitle().equals("Login"));
 	}
 
 	@Entonces("^inserta su mail \"(.+)\" y su password \"(.+)\"$")

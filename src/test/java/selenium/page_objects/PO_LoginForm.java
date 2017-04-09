@@ -2,7 +2,6 @@ package selenium.page_objects;
 
 import java.util.List;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
@@ -19,9 +18,7 @@ public class PO_LoginForm {
 	
 	public void completeForm(WebDriver driver, String loginValue,String passwordValue){
 		//(1) encontramos el input para el correo y lo rellenamos
-		
-		List<WebElement> login = SeleniumUtils.EsperaCargaPagina(driver, "id","inputEmail" , 10);
-		
+		List<WebElement> login = SeleniumUtils.EsperaCargaPagina(driver, "id", "inputEmail" , 10);
 		
 		login.get(0).click();
 		login.get(0).clear();
@@ -30,7 +27,6 @@ public class PO_LoginForm {
 		ThreadUtil.wait(500);
 		//(2) encontramos el input para la password y lo rellenamos
 		List<WebElement> password =  SeleniumUtils.EsperaCargaPagina(driver, "id","inputPassword" , 10);
-		
 		
 		password.get(0).click();
 		password.get(0).clear();

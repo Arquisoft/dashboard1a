@@ -10,6 +10,8 @@
 	
 	<link th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>
  	<link th:href="@{/css/error.css}" rel="stylesheet"/>
+ 	
+ 	<link rel="shortcut icon" type="image/png" th:href="@{/img/favicon.png}"/>
 </head>
 <body>
 	<div class="container">
@@ -21,7 +23,7 @@
 						Ha ocurrido el siguiente error: <strong><span th:text="${error}"></span></strong>
 					</div>
 					<div class="error-actions">
-						<a id="login" href="/" class="btn btn-primary btn-lg">Vuelva a intentarlo</a>
+						<a id="volverLogin" href="/" class="btn btn-primary btn-lg">Vuelva a intentarlo</a>
 					</div>
 				</div>
 			</div>
