@@ -1,6 +1,7 @@
 package asw;
 
 
+import java.io.IOException;
 import java.text.ParseException;
 
 import org.apache.log4j.Logger;
@@ -19,11 +20,13 @@ import asw.dbManagement.repository.ParticipantRepository;
 public class Application {
 	public static final Logger logger = Logger.getLogger(Application.class);
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
+// 		Para ejecutar kafka 
+//    	Runtime.getRuntime().exec("kafka.bat");
     	SpringApplication.run(Application.class, args);
     }
-    
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+
+	public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
     }
     
