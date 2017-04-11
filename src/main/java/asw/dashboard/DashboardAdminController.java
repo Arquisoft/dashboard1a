@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -34,8 +35,10 @@ public class DashboardAdminController {
 
 	// Muestra las graficas
 	@RequestMapping("/dashboardGraphics")
-	public String showGraphics() {
-		return "dashboardGrafica";
+	public String showGraphics(Model model) {
+		model.addAttribute("allSuggestions", suggestionRepository.findAll().stream().map(s -> s.getIdentificador()).toArray());
+		model.addAttribute("allVotes", suggestionRepository.findAll().stream().map(s -> s.getVotosPositivos()).toArray());
+		return "dashboardGraficaPrueba";
 	}
 
 	// Pagina de comentarios por sugerencia en el dashboard
@@ -48,7 +51,6 @@ public class DashboardAdminController {
 	}
 
 	/************** EVENTOS *************/
-
 	@RequestMapping(value = "/newSuggestion")
 	@KafkaListener(topics = Topics.NEW_SUGGESTION)
 	public void newSuggestion(String data) {
@@ -93,6 +95,7 @@ public class DashboardAdminController {
 
 	/************** METODOS AUXILIARES *************/
 
+	@CrossOrigin(origins = "http://localhost:8090")
 	@RequestMapping("/dashboardAdmin/updates")
 	SseEmitter updateHTML() {
 		SseEmitter sseEmitter = new SseEmitter(Long.MAX_VALUE);
@@ -114,10 +117,7 @@ public class DashboardAdminController {
 				try {
 					sseEmitter.send(event);
 				} catch (IOException e) {
-					synchronized (this.sseEmitters) {
-						sseEmitter = new SseEmitter(Long.MAX_VALUE);
-						this.sseEmitters.add(sseEmitter);
-					}
+					sseEmitter = new SseEmitter(Long.MAX_VALUE);
 					Application.logger.error("Se ha cerrado el stream actual");
 				}
 			}

@@ -24,15 +24,6 @@
 			]
 		});   
     </script>
- 	<script type="text/javascript">
-		//<![CDATA[
-		var source = new EventSource("/dashboardPolitician/updates");
-
-		source.onmessage = function(event) {
-			document.getElementById("messages").innerHTML += (event.data + "</br>");
-		};
-		//]]>
-	</script>
 </head>
 <body>
 	<nav class="navbar navbar-inverse navbar-fixed-top">
