@@ -4,10 +4,11 @@ import static org.junit.Assert.assertTrue;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
-import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.boot.test.WebIntegrationTest;
+import org.springframework.boot.test.IntegrationTest;
+import org.springframework.boot.test.SpringApplicationContextLoader;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.web.WebAppConfiguration;
 
 import asw.Application;
 import cucumber.api.java.es.Cuando;
@@ -16,8 +17,9 @@ import selenium.page_objects.PO_LoginForm;
 import utils.ThreadUtil;
 
 @SuppressWarnings("deprecation")
-@SpringApplicationConfiguration(classes = Application.class)
-@WebIntegrationTest(value = "server.port=8090")
+@ContextConfiguration(classes=Application.class, loader=SpringApplicationContextLoader.class)
+@IntegrationTest
+@WebAppConfiguration
 public class LoginPoliticoSteps {
 
 	private WebDriver driver = null;
