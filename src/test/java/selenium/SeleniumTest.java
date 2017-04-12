@@ -26,7 +26,7 @@ import utils.ThreadUtil;
 @SuppressWarnings("deprecation")
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = Application.class)
-@WebIntegrationTest
+@WebIntegrationTest(value = "server.port=8091")
 //@Clean posibles modificaciones en los id al tener prime faces
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class SeleniumTest {
@@ -37,7 +37,7 @@ public class SeleniumTest {
 	// private static WebDriver driver = new FirefoxDriver();
 
 	//private static WebDriver driver = getDriver();
-	private static String URLInicio = "http://localhost:8090/";
+	private static String URLInicio = "http://localhost:8091/";
 
 	/*
 	 * Si alguno teneis un firefox portable y quereis lanzar ese mismo
