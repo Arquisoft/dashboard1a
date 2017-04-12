@@ -6,7 +6,7 @@ import cucumber.api.CucumberOptions;
 import cucumber.api.junit.Cucumber;
 
 @RunWith(Cucumber.class)
-@CucumberOptions(features = "src/test/java/cucumber/features", glue = {"cucumber.steps"})
+@CucumberOptions(features = "src/test/java/cucumber/features", glue = {"cucumber.tests.steps"})
 public class CucumberMainTest {
-
+  // si se pone glue = {"cucumber.steps"}, pasa cucumber pero no selenium
 }
