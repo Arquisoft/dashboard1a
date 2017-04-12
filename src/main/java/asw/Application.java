@@ -21,8 +21,8 @@ public class Application {
 	public static final Logger logger = Logger.getLogger(Application.class);
 
     public static void main(String[] args) throws IOException {
-// 		Para ejecutar kafka 
-//    	Runtime.getRuntime().exec("kafka.bat");
+// 		TODO Para ejecutar kafka, de momento solo abre zookeeper
+//    	Runtime.getRuntime().exec("executeKafka.bat");
     	SpringApplication.run(Application.class, args);
     }
 

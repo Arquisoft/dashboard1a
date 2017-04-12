@@ -50,6 +50,7 @@ public class GetParticipantInfoHTMLController {
 		} else {
 			if (participant.isAdmin())
 				return "redirect:/dashboardAdmin";
+			// TODO dashboard de politicos
 			else
 				return "redirect:/dashboardPolitician";
 		}
