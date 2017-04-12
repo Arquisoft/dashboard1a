@@ -26,7 +26,7 @@ import utils.ThreadUtil;
 @SuppressWarnings("deprecation")
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = Application.class)
-@WebIntegrationTest(value = "server.port=8090")
+@WebIntegrationTest
 //@Clean posibles modificaciones en los id al tener prime faces
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class SeleniumTest {
