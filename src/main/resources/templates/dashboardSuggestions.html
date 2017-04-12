@@ -12,6 +12,7 @@
  	<link th:href="@{/css/dashboard.css}" rel="stylesheet"/>
  	
  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
  	<script type="text/javascript" th:src="@{/js/suggestions.js}"></script>
  	
  	<link rel="shortcut icon" type="image/png" th:href="@{/img/favicon.png}"/>
@@ -73,6 +74,24 @@
 			</div>
 		</div>
 	  </div>
+	</div>
+	
+	<div class="modal fade" id="alerta" role="dialog">
+		<div class="modal-dialog">
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">Suggestion alert</h4>
+				</div>
+				<div class="modal-body">
+					<p>Suggestion has been approved.</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
 	</div>
 </body>
 </html>

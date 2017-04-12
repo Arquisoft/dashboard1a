@@ -15,7 +15,8 @@ eventSource.addEventListener("alertSuggestion", function(event) {
 	$('a').filter(function() {
 		return $(this).text() === obj.suggestion;
 	}).css("color", "red");
-	alert("La sugerencia " + obj.suggestion + " ha sido aprobada");
+	
+	$("#alerta").modal();
 });
     	
 eventSource.addEventListener("voteSuggestion", function(event) {
