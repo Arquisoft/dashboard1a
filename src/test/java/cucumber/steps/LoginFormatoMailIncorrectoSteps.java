@@ -17,7 +17,7 @@ import selenium.page_objects.PO_LoginForm;
 
 //@SuppressWarnings("deprecation")
 //@SpringApplicationConfiguration(classes = Application.class)
-//@WebIntegrationTest(value = "server.port=8090")
+@WebIntegrationTest(value = "server.port=8090")
 public class LoginFormatoMailIncorrectoSteps {
 
 	private WebDriver driver = null;
@@ -25,9 +25,8 @@ public class LoginFormatoMailIncorrectoSteps {
 
 	@Cuando("^el usuario se encuentra en la pagina de login$")
 	public void el_usuario_se_encuentra_en_la_pagina_de_login() {
-		//driver = new HtmlUnitDriver();
-		driver = new FirefoxDriver();
-		//driver.get(url);
+		driver = new HtmlUnitDriver();
+		driver.get(url);
 		driver.navigate().to(url);
 		assertTrue("titulo no coincide", driver.getTitle().equals("Login"));
 	}
