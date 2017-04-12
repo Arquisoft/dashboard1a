@@ -5,6 +5,7 @@ import static org.junit.Assert.assertTrue;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.boot.test.WebIntegrationTest;
@@ -14,9 +15,9 @@ import cucumber.api.java.es.Cuando;
 import cucumber.api.java.es.Entonces;
 import selenium.page_objects.PO_LoginForm;
 
-@SuppressWarnings("deprecation")
-@SpringApplicationConfiguration(classes = Application.class)
-@WebIntegrationTest(value = "server.port=8090")
+//@SuppressWarnings("deprecation")
+//@SpringApplicationConfiguration(classes = Application.class)
+//@WebIntegrationTest(value = "server.port=8090")
 public class LoginFormatoMailIncorrectoSteps {
 
 	private WebDriver driver = null;
@@ -24,8 +25,10 @@ public class LoginFormatoMailIncorrectoSteps {
 
 	@Cuando("^el usuario se encuentra en la pagina de login$")
 	public void el_usuario_se_encuentra_en_la_pagina_de_login() {
-		driver = new HtmlUnitDriver();
-		driver.get(url);
+		//driver = new HtmlUnitDriver();
+		driver = new FirefoxDriver();
+		//driver.get(url);
+		driver.navigate().to(url);
 		assertTrue("titulo no coincide", driver.getTitle().equals("Login"));
 	}
 
