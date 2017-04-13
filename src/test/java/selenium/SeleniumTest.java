@@ -9,24 +9,15 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
-import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.boot.test.WebIntegrationTest;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import asw.Application;
 import selenium.page_objects.PO_LoginForm;
 import utils.ThreadUtil;
 
-@SuppressWarnings("deprecation")
-@RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = Application.class)
-@WebIntegrationTest(value = "server.port=8091")
 //@Clean posibles modificaciones en los id al tener prime faces
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class SeleniumTest {
@@ -37,7 +28,7 @@ public class SeleniumTest {
 	// private static WebDriver driver = new FirefoxDriver();
 
 	//private static WebDriver driver = getDriver();
-	private static String URLInicio = "http://localhost:8091/";
+	private static String URLInicio = "http://localhost:8090/";
 
 	/*
 	 * Si alguno teneis un firefox portable y quereis lanzar ese mismo
@@ -62,16 +53,16 @@ public class SeleniumTest {
 		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 	}
 
-	@After
-	public void tearDown() {
-		driver.manage().deleteAllCookies();
-	}
-
 	@AfterClass
 	static public void end() {
 		// Espera para que la última prueba borre las cookies
 		driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
 		driver.quit();
+	}
+	
+	@After
+	public void tearDown() {
+		driver.manage().deleteAllCookies();
 	}
 
 	/*

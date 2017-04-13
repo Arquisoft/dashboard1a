@@ -1,7 +1,6 @@
 /target/
 
 .metadata
-bin/
 tmp/
 *.tmp
 *.bak
@@ -11,6 +10,7 @@ local.properties
 .settings/
 .loadpath
 .recommenders
+.log
 
 # Eclipse Core
 .project

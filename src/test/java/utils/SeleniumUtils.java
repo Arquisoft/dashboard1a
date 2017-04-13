@@ -15,7 +15,8 @@ public class SeleniumUtils {
 
 	// Mueve el ratón a la opción de menú submenu(desplegable). Evento hover
 	// y clicka la opcion opcionclick
-	static public void ClickSubopcionMenuHover(WebDriver driver, String submenu, String opcionclick) {
+	static public void ClickSubopcionMenuHover(WebDriver driver, String submenu,
+			String opcionclick) {
 
 		// Pasamos el raton por el submenu de Gestion de alumnos para
 		// que aparezca el menu desplegable
@@ -30,23 +31,26 @@ public class SeleniumUtils {
 	}
 
 	static public void textoPresentePagina(WebDriver driver, String texto) {
-		List<WebElement> list = driver.findElements(By.xpath("//*[contains(text(),'" + texto + "')]"));
+		List<WebElement> list = driver
+				.findElements(By.xpath("//*[contains(text(),'" + texto + "')]"));
 		assertTrue("Texto " + texto + " no localizado!", list.size() > 0);
 	}
 
 	static public void textoNoPresentePagina(WebDriver driver, String texto) {
-		List<WebElement> list = driver.findElements(By.xpath("//*[contains(text(),'" + texto + "')]"));
+		List<WebElement> list = driver
+				.findElements(By.xpath("//*[contains(text(),'" + texto + "')]"));
 		assertTrue("Texto " + texto + " aun presente !", list.size() == 0);
 	}
 
 	static public void EsperaCargaPaginaNoTexto(WebDriver driver, String texto, int timeout) {
-		Boolean resultado = (new WebDriverWait(driver, timeout)).until(
-				ExpectedConditions.invisibilityOfElementLocated(By.xpath("//*[contains(text(),'" + texto + "')]")));
+		Boolean resultado = (new WebDriverWait(driver, timeout)).until(ExpectedConditions
+				.invisibilityOfElementLocated(By.xpath("//*[contains(text(),'" + texto + "')]")));
 
 		assertTrue(resultado);
 	}
 
-	static public List<WebElement> EsperaCargaPaginaxpath(WebDriver driver, String xpath, int timeout) {
+	static public List<WebElement> EsperaCargaPaginaxpath(WebDriver driver, String xpath,
+			int timeout) {
 		WebElement resultado = (new WebDriverWait(driver, timeout))
 				.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(xpath)));
 		assertTrue(resultado != null);
@@ -80,7 +84,8 @@ public class SeleniumUtils {
 	 *            máximo número de segundos que se esperará por la carga del
 	 *            elemento
 	 */
-	static public List<WebElement> EsperaCargaPagina(WebDriver driver, String criterio, String id, int timeout) {
+	static public List<WebElement> EsperaCargaPagina(WebDriver driver, String criterio, String id,
+			int timeout) {
 
 		String busqueda;
 
