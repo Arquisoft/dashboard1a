@@ -23,11 +23,11 @@ import utils.ThreadUtil;
 public class SeleniumTest {
 
 	// NAVEGADOR HTMLUnit
-	 private static WebDriver driver = new HtmlUnitDriver();
+	private static WebDriver driver = new HtmlUnitDriver();
 	// FIREFOX
 	// private static WebDriver driver = new FirefoxDriver();
 
-	//private static WebDriver driver = getDriver();
+	// private static WebDriver driver = getDriver();
 	private static String URLInicio = "http://localhost:8090/";
 
 	/*
@@ -36,16 +36,16 @@ public class SeleniumTest {
 	 * puede definir un buscador por defecto en preferences web Browser
 	 * 
 	 */
-//	public static WebDriver getDriver() {
-//		// Ruta al firefox portable
-//		File pathToBinary = new File("D:\\firefox\\FirefoxPortable.exe");
-//		// firefox de nuestro ordenador
-//
-//		FirefoxBinary ffBinary = new FirefoxBinary(pathToBinary);
-//		FirefoxProfile firefoxProfile = new FirefoxProfile();
-//
-//		return driver = new FirefoxDriver(ffBinary, firefoxProfile);
-//	}
+	// public static WebDriver getDriver() {
+	// // Ruta al firefox portable
+	// File pathToBinary = new File("D:\\firefox\\FirefoxPortable.exe");
+	// // firefox de nuestro ordenador
+	//
+	// FirefoxBinary ffBinary = new FirefoxBinary(pathToBinary);
+	// FirefoxProfile firefoxProfile = new FirefoxProfile();
+	//
+	// return driver = new FirefoxDriver(ffBinary, firefoxProfile);
+	// }
 
 	@Before
 	public void setUp() {
@@ -59,7 +59,7 @@ public class SeleniumTest {
 		driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
 		driver.quit();
 	}
-	
+
 	@After
 	public void tearDown() {
 		driver.manage().deleteAllCookies();
@@ -76,7 +76,8 @@ public class SeleniumTest {
 		assertTrue("Titulo de pagina no coincide", driver.getTitle().equals("Login"));
 
 		WebElement texto = driver.findElement(By.id("inputEmail"));
-		assertTrue("placeholder no coincide", texto.getAttribute("placeholder").equals("Email address"));
+		assertTrue("placeholder no coincide",
+				texto.getAttribute("placeholder").equals("Email address"));
 
 		texto = driver.findElement(By.id("inputPassword"));
 		assertTrue("placeholder no coincide", texto.getAttribute("placeholder").equals("Password"));
@@ -96,50 +97,85 @@ public class SeleniumTest {
 	}
 
 	@Test
-	public void t3_testLoginAdmin() {
+	public void t2_testLoginAdmin() {
 		// (1) Comprobamos que estamos en la página de login
 		assertTrue("Titulo de pagina no coincide", driver.getTitle().equals("Login"));
 
 		WebElement texto = driver.findElement(By.id("inputEmail"));
-		assertTrue("placeholder no coincide", texto.getAttribute("placeholder").equals("Email address"));
+		assertTrue("placeholder no coincide",
+				texto.getAttribute("placeholder").equals("Email address"));
 
 		texto = driver.findElement(By.id("inputPassword"));
 		assertTrue("placeholder no coincide", texto.getAttribute("placeholder").equals("Password"));
 
 		texto = driver.findElement(By.id("boton_login"));
 		assertTrue("texto del boton no coincide", texto.getText().equals("Sign in"));
+
 		// (2) nos logeamos como administrador correctamente
 		new PO_LoginForm().completeForm(driver, "maria@gmail.com", "123456");
-		// (3) Comprobamos que estamos en la página del administrador
 
+		// (3) Comprobamos que estamos en la página del administrador
 		assertTrue("Titulo no se corresponde", driver.getTitle().equals("Dashboard"));
-		assertTrue("Subtitulo no tiene el mismo texto",
-				driver.findElement(By.cssSelector("h2.sub-header")).getText().equals("Suggestions"));
+		assertTrue("Subtitulo no tiene el mismo texto", driver
+				.findElement(By.cssSelector("h2.sub-header")).getText().equals("Suggestions"));
 		ThreadUtil.wait(2000);
 	}
-	
+
 	@Test
-	public void t4_testEntrarEnTarea(){
+	public void t3_testEntrarEnSugerencia() {
 		// (1) realizamos un login
 		assertTrue("Titulo de pagina no coincide", driver.getTitle().equals("Login"));
 
 		WebElement texto = driver.findElement(By.id("inputEmail"));
-		assertTrue("placeholder no coincide", texto.getAttribute("placeholder").equals("Email address"));
+		assertTrue("placeholder no coincide",
+				texto.getAttribute("placeholder").equals("Email address"));
 
 		texto = driver.findElement(By.id("inputPassword"));
 		assertTrue("placeholder no coincide", texto.getAttribute("placeholder").equals("Password"));
 
 		texto = driver.findElement(By.id("boton_login"));
 		assertTrue("texto del boton no coincide", texto.getText().equals("Sign in"));
-		
-		new PO_LoginForm().completeForm(driver, "maria@gmail.com", "123456");
-		//(2) validamos que estamos en la ventana adecuada
-		
-		assertTrue("Titulo no se corresponde", driver.getTitle().equals("Dashboard"));
-		assertTrue("Subtitulo no tiene el mismo texto",
-				driver.findElement(By.cssSelector("h2.sub-header")).getText().equals("Suggestions"));
-	}
-	
-	
 
+		new PO_LoginForm().completeForm(driver, "maria@gmail.com", "123456");
+
+		// (2) validamos que estamos en la ventana adecuada
+		assertTrue("Titulo no se corresponde", driver.getTitle().equals("Dashboard"));
+		assertTrue("Subtitulo no tiene el mismo texto", driver
+				.findElement(By.cssSelector("h2.sub-header")).getText().equals("Suggestions"));
+
+		// (3) entramos en la primera sugerencia
+		texto = driver.findElements(By.className("sugerencia")).get(0);
+		texto.click();
+		assertTrue("Subtitulo no tiene el mismo texto",
+				driver.findElement(By.cssSelector("h3.sub-header")).getText().equals("Comments"));
+	}
+
+	@Test
+	public void t4_testEntrarEnGraficas() {
+		// (1) realizamos un login
+		assertTrue("Titulo de pagina no coincide", driver.getTitle().equals("Login"));
+
+		WebElement texto = driver.findElement(By.id("inputEmail"));
+		assertTrue("placeholder no coincide",
+				texto.getAttribute("placeholder").equals("Email address"));
+
+		texto = driver.findElement(By.id("inputPassword"));
+		assertTrue("placeholder no coincide", texto.getAttribute("placeholder").equals("Password"));
+
+		texto = driver.findElement(By.id("boton_login"));
+		assertTrue("texto del boton no coincide", texto.getText().equals("Sign in"));
+
+		new PO_LoginForm().completeForm(driver, "maria@gmail.com", "123456");
+
+		// (2) validamos que estamos en la ventana adecuada
+		assertTrue("Titulo no se corresponde", driver.getTitle().equals("Dashboard"));
+		assertTrue("Subtitulo no tiene el mismo texto", driver
+				.findElement(By.cssSelector("h2.sub-header")).getText().equals("Suggestions"));
+		
+		// (3) entramos en la pantalla de graficas
+		texto = driver.findElement(By.id("enlaceGraficas"));
+		texto.click();
+		assertTrue("Subtitulo no tiene el mismo texto", driver
+				.findElement(By.cssSelector("h1.page-header")).getText().equals("Graphics"));
+	}
 }

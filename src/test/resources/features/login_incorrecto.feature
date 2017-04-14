@@ -1,8 +1,8 @@
 # language: es
 
- Característica: El administrador debe de hacer login en la aplicacion
+ Característica: El usuario debe de hacer login en la aplicacion
  
- 	Escenario: Iniciar sesion administrador con un email con formato incorrecto
+ 	Escenario: Iniciar sesion usuario con un email con formato incorrecto
  		
  		Cuando el usuario se encuentra en la pagina de login
  		Entonces inserta su mail incorrecto "noexisto@gmailcom" y su password "123456"
